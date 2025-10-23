@@ -97,14 +97,27 @@ namespace GemeloDigital
             return p;
         }
 
-        public static Facility CreateFacility()
+        public static Facility CreateFacility(Point entrance, Point exit)
         {
-            Facility f = new Facility();
+            Facility f = new Facility(entrance, exit);
             simulatedObjects.Add(f);
 
             return f;
         }
 
+        public static Point CreatePoint()
+        {
+            Point p = new Point();
+
+            return p;
+        }
+
+        public static Path CreatePath(Point p1, Point p2)
+        {
+            Path p = new Path(p1, p2);
+
+            return p;
+        }
 
         public static void DeleteObject(SimulatedObject simObject)
         {

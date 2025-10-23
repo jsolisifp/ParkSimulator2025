@@ -8,13 +8,24 @@ namespace GemeloDigital
 {
     public class Facility : SimulatedObject
     {
+        public List<Point> Entrances { get { return entrances; } }
+        public List<Point> Exits { get { return exits; } }
+
         public string Name { get; set; }
         public float PowerConsumed { get; set; }
 
+        List<Point> entrances;
+        List<Point> exits;
+
         float powerConsumed;
 
-        public Facility()
+        public Facility(Point entrance, Point exit)
         {
+            entrances = new List<Point>();
+            exits = new List<Point>();
+
+            entrances.Add(entrance);
+            exits.Add(exit);
         }
 
         public override void Start()
