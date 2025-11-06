@@ -40,16 +40,13 @@ namespace GemeloDigital
 
             // Create
 
-            PersonPropertiesGenerator generator = new PersonPropertiesGenerator();
+            PersonGenerator generator = SimulatorCore.CreatePersonGenerator();
 
-
-            for (int i = 0; i < Constants.totalPersons; i++)
+            for(int i = 0; i < Constants.totalPersons; i++)
             {
-                Person p = SimulatorCore.CreatePerson();
-                p.Age = generator.GenerateAge();
-                p.Height = generator.GenerateHeight(p.Age);
+                Person p = generator.GeneratePerson();
 
-                Console.WriteLine("Age: " +  p.Age + " height: " + p.Height);
+                Console.WriteLine("Generated person: age " + p.Age + " height " + p.Height);
 
                 p.IsAtFacility = f1;
             }

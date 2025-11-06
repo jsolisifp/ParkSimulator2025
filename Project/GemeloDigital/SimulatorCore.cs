@@ -97,6 +97,13 @@ namespace GemeloDigital
             return p;
         }
 
+        public static PersonGenerator CreatePersonGenerator()
+        {
+            PersonGenerator g = new PersonGenerator();
+
+            return g;
+        }
+
         public static Facility CreateFacility(Point entrance, Point exit)
         {
             Facility f = new Facility(entrance, exit);
