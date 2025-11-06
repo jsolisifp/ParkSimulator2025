@@ -24,29 +24,33 @@ namespace GemeloDigital
 
             // Age is random
 
-            int age = Constants.ageMin + random.Next() % (Constants.ageMax - Constants.ageMin + 1);
+            int age = Constants.personAgeMin + random.Next() %
+                      (Constants.personAgeMax - Constants.personAgeMin + 1);
 
             // Height depends on age
 
             float height;
 
-            if(age <= Constants.ageYoungMin)
+            if(age <= Constants.personAgeYoungMin)
             {
                 // Childs
 
-                height = Constants.heightChildMin + random.NextSingle() * (Constants.heightChildMax - Constants.heightChildMin);
+                height = Constants.personHeightChildMin + random.NextSingle() * 
+                         (Constants.personHeightChildMax - Constants.personHeightChildMin);
             }
-            else if(age <= Constants.ageAdultMin)
+            else if(age <= Constants.personAgeAdultMin)
             {
                 // Adults
 
-                height = Constants.heightAdultMin + random.NextSingle() * (Constants.heightAdultMax - Constants.heightAdultMin);
+                height = Constants.personHeightAdultMin + random.NextSingle() *
+                         (Constants.personHeightAdultMax - Constants.personHeightAdultMin);
             }
             else // age <= Constants.ageMax
             {
                 // Seniors
 
-                height = Constants.heightSeniorMin + random.NextSingle() * (Constants.heightSeniorMax - Constants.heightSeniorMin);
+                height = Constants.personHeightSeniorMin + random.NextSingle() *
+                         (Constants.personHeightSeniorMax - Constants.personHeightSeniorMin);
             }
 
             person.Age = age;

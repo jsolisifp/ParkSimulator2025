@@ -9,6 +9,8 @@ namespace GemeloDigital
         {
             SimulatorCore.Initialize();
 
+            ///////////// POPULATE SIMULATION BEGIN //////////////
+
             // Paths and points
 
             Point point1 = SimulatorCore.CreatePoint();
@@ -38,11 +40,11 @@ namespace GemeloDigital
             f3.Name = "Funicular";
             f3.PowerConsumed = 250;
 
-            // Create
+            // Persons
 
             PersonGenerator generator = SimulatorCore.CreatePersonGenerator();
 
-            for(int i = 0; i < Constants.totalPersons; i++)
+            for(int i = 0; i < Constants.personsTotal; i++)
             {
                 Person p = generator.GeneratePerson();
 
@@ -50,6 +52,8 @@ namespace GemeloDigital
 
                 p.IsAtFacility = f1;
             }
+
+            ///////////// POPULATE SIMULATION END //////////////
 
             SimulatorCore.Start();
 
@@ -60,7 +64,7 @@ namespace GemeloDigital
 
             SimulatorCore.Stop();
 
-            Console.WriteLine("KPI: " + SimulatorCore.GetGeneralKPI(Constants.kpiNameEnergy));
+            Console.WriteLine("KPI " + Constants.kpiNameEnergy + ": " + SimulatorCore.GetGeneralKPI(Constants.kpiNameEnergy));
 
             SimulatorCore.Finish();
         }
