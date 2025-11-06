@@ -17,7 +17,7 @@ namespace GemeloDigital
         List<Point> entrances;
         List<Point> exits;
 
-        float powerConsumed;
+        float powerConsumedTotal;
 
         public Facility(Point entrance, Point exit)
         {
@@ -30,16 +30,13 @@ namespace GemeloDigital
 
         public override void Start()
         {
-            powerConsumed = 10;
+            powerConsumedTotal = 0;
 
         }
 
         public override void Step()
         {
-            powerConsumed += 1;
-
-            Console.WriteLine("Power consumed " + powerConsumed);
-
+            powerConsumedTotal += PowerConsumed * Constants.hoursPerStep;
         }
 
         public override void Stop()
@@ -48,9 +45,9 @@ namespace GemeloDigital
 
         public override float GetKPI(string kpi)
         {
-            if (kpi == "powerConsumed")
+            if (kpi == Constants.kpiNameEnergy)
             {
-                return powerConsumed;
+                return powerConsumedTotal;
             }
             else
             {

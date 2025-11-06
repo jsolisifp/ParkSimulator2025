@@ -9,14 +9,6 @@ namespace GemeloDigital
         {
             SimulatorCore.Initialize();
 
-            Person p1 = SimulatorCore.CreatePerson();
-            p1.SetAge(18);
-            p1.Age = 18;
-
-            Person p2 = SimulatorCore.CreatePerson();
-            p2.SetAge(14);
-            p2.Age = 14;
-
             // Paths and points
 
             Point point1 = SimulatorCore.CreatePoint();
@@ -46,10 +38,21 @@ namespace GemeloDigital
             f3.Name = "Funicular";
             f3.PowerConsumed = 250;
 
-            // Place people
+            // Create
 
-            p1.IsAtFacility = f1;
-            p2.IsAtFacility = f1;
+            PersonPropertiesGenerator generator = new PersonPropertiesGenerator();
+
+
+            for (int i = 0; i < Constants.totalPersons; i++)
+            {
+                Person p = SimulatorCore.CreatePerson();
+                p.Age = generator.GenerateAge();
+                p.Height = generator.GenerateHeight(p.Age);
+
+                Console.WriteLine("Age: " +  p.Age + " height: " + p.Height);
+
+                p.IsAtFacility = f1;
+            }
 
             SimulatorCore.Start();
 
@@ -60,7 +63,7 @@ namespace GemeloDigital
 
             SimulatorCore.Stop();
 
-            Console.WriteLine("KPI: " + SimulatorCore.GetGeneralKPI("powerConsumed"));
+            Console.WriteLine("KPI: " + SimulatorCore.GetGeneralKPI(Constants.kpiNameEnergy));
 
             SimulatorCore.Finish();
         }
