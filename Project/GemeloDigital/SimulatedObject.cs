@@ -9,35 +9,30 @@ namespace GemeloDigital
 {
     public class SimulatedObject
     {
-        string name;
+        public string Id { get; set; }
+        public string Name { get; set; }
+
+        public SimulatedObjectType Type { get; set; }
 
         public SimulatedObject()
         {
-            name = "Sin nombre";
-        }
-
-        public string GetName()
-        {
-            return name;
-        }
-
-        public void SetName(string _name)
-        {
-            name = _name;
+            Id = Guid.NewGuid().ToString();
+            Name = "Sin nombre";
+            Type = SimulatedObjectType.Any;
         }
 
         public virtual void Start()
         {
-            Console.WriteLine("SimObj " + name + ": Started");
+            // Nothing to do
         }
 
         public virtual void Step()
         {
-            Console.WriteLine("SimObj " + name + ": Stepped");
+            // Nothing to do
         }
         public virtual void Stop()
         {
-            Console.WriteLine("SimObj " + name + ": Stopped");
+            // Nothing to do
         }
 
         public virtual float GetKPI(string kpi)
@@ -47,12 +42,12 @@ namespace GemeloDigital
 
         public virtual void StartKPIRecording(string name)
         {
-            Console.WriteLine("");
+            // Nothing to do
         }
 
         public virtual void StopKPIRecording(string name)
         {
-
+            // Nothing to do
         }
     }
 }

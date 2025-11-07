@@ -9,11 +9,20 @@ namespace GemeloDigital
 {
     public class SimulatorCore
     {
-        public string Version { get { return version; } }
+        /// <summary>
+        /// Devuelve la versión del simulador
+        /// </summary>
+        public static string Version { get { return version; } }
 
-        const string version = "3";
+        public static SimulatorState State { get { return state; }  }
 
-        static int step;
+        public static int Steps { get { return steps; } }
+
+        public static float Time { get { return steps * Constants.hoursPerStep; } }
+
+        const string version = "4";
+        static SimulatorState state;
+        static int steps;
 
         static List<SimulatedObject> simulatedObjects;
 
@@ -26,7 +35,7 @@ namespace GemeloDigital
         {
             simulatedObjects = new List<SimulatedObject>();
 
-            Console.WriteLine("Simulator initialized");
+            state = SimulatorState.Stopped;
         }
 
         /// <summary>
@@ -35,14 +44,14 @@ namespace GemeloDigital
         /// </summary>
         public static void Start()
         {
-            step = 0;
+            steps = 0;
 
             for(int i = 0; i< simulatedObjects.Count; i++)
             {
                 simulatedObjects[i].Start();
             }
 
-            Console.WriteLine("Simulation started");
+            state = SimulatorState.Running;
         }
 
         /// <summary>
@@ -57,9 +66,7 @@ namespace GemeloDigital
                 simulatedObjects[i].Step();
             }
 
-            step++;
-
-            Console.WriteLine("Simulation stepped");
+            steps++;
         }
 
         /// <summary>
@@ -73,7 +80,7 @@ namespace GemeloDigital
                 simulatedObjects[i].Stop();
             }
 
-            Console.WriteLine("Simulation stopped");
+            state = SimulatorState.Stopped;
         }
 
 
@@ -85,13 +92,11 @@ namespace GemeloDigital
         {
             simulatedObjects = null;
 
-            Console.WriteLine("Simulator finished");
         }
 
         public static Person CreatePerson()
         {
             Person p = new Person();
-
             simulatedObjects.Add(p);
 
             return p;
@@ -115,6 +120,7 @@ namespace GemeloDigital
         public static Point CreatePoint()
         {
             Point p = new Point();
+            simulatedObjects.Add(p);
 
             return p;
         }
@@ -122,13 +128,65 @@ namespace GemeloDigital
         public static Path CreatePath(Point p1, Point p2)
         {
             Path p = new Path(p1, p2);
+            simulatedObjects.Add(p);
 
             return p;
         }
 
-        public static void DeleteObject(SimulatedObject simObject)
+        public static List<SimulatedObject> GetObjects()
         {
-            simulatedObjects.Remove(simObject);
+            return simulatedObjects;
+        }
+
+        public static int CountObjectsOfType(SimulatedObjectType type)
+        {
+            int count = 0;
+
+            for(int i = 0; i < simulatedObjects.Count; i++)
+            {
+                SimulatedObject o = simulatedObjects[i];
+                if(o.Type == type || type == SimulatedObjectType.Any) { count ++; }
+            }
+
+            return count;
+        }
+
+        public static List<SimulatedObject> GetObjectsOfType(SimulatedObjectType type)
+        {
+            List<SimulatedObject> objects = new List<SimulatedObject>();
+            
+            for(int i = 0; i < simulatedObjects.Count; i++)
+            {
+                SimulatedObject o = simulatedObjects[i];
+                if(o.Type == type || type == SimulatedObjectType.Any) { objects.Add(o); }
+            }
+
+            return objects;
+        }
+
+        public static Person AsPerson(SimulatedObject obj)
+        {
+            return (Person)obj;
+        }
+
+        public static Facility AsFacility(SimulatedObject obj)
+        {
+            return (Facility)obj;
+        }
+
+        public static Point AsPoint(SimulatedObject obj)
+        {
+            return (Point)obj;
+        }
+
+        public static Path AsPath(SimulatedObject obj)
+        {
+            return (Path)obj;
+        }
+
+        public static void DeleteObject(SimulatedObject obj)
+        {
+            simulatedObjects.Remove(obj);
         }
 
         public static float GetGeneralKPI(string kpi)
@@ -167,11 +225,6 @@ namespace GemeloDigital
         {
             simObj.StopKPIRecording(kpiName);
         }
-
-
-
-
-
 
     }
 }

@@ -12,19 +12,17 @@ namespace GemeloDigital
         public Path? IsAtPath { get; set; }
 
 
-
-        // Property definiendo expresamente una variable privada
-        // donde guardar el valor
-        public int Age { get { return age;  } set { age = value;  } }
-
-        // Property resumida: el compilador ya generará la variable
-        // privada internamente
+        public int Age { get; set; }
         public float Height { get; set; }
 
         public float Weight { get; set; }
         public float Money { get; set; }
 
-        int age;
+        public Person()
+        {
+            Name = "Person";
+            Type = SimulatedObjectType.Person;
+        }
 
         public override void Start()
         {
@@ -36,18 +34,6 @@ namespace GemeloDigital
 
         public override void Stop()
         {
-        }
-
-        // Getter
-        public int GetAge()
-        {
-            return age;
-        }
-
-        // Setter
-        public void SetAge(int value)
-        {
-            age = value;
         }
 
         public override void StartKPIRecording(string name)

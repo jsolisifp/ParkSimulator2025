@@ -11,7 +11,6 @@ namespace GemeloDigital
         public List<Point> Entrances { get { return entrances; } }
         public List<Point> Exits { get { return exits; } }
 
-        public string Name { get; set; }
         public float PowerConsumed { get; set; }
 
         List<Point> entrances;
@@ -21,6 +20,9 @@ namespace GemeloDigital
 
         public Facility(Point entrance, Point exit)
         {
+            Name = "Facility";
+            Type = SimulatedObjectType.Facility;
+
             entrances = new List<Point>();
             exits = new List<Point>();
 
