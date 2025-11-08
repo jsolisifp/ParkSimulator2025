@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace GemeloDigital
 {
-    public class Point
+    public class Point : SimulatedObject
     {
         public Vector3 Position { get; set; }
+
+        internal Point()
+        {
+            Name = "Point";
+            Type = SimulatedObjectType.Point;
+        }
 
     }
 }

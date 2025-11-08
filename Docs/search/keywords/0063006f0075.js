@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("cou",["Function"],[["CountObjectsOfType",,[["GemeloDigital.SimulatorCore",,,,0,"File:SimulatorCore.cs:GemeloDigital.SimulatorCore.CountObjectsOfType","CSharpClass:GemeloDigital.SimulatorCore:CountObjectsOfType"]]]]);

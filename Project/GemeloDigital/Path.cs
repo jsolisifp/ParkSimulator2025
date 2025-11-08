@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GemeloDigital
 {
-    public class Path
+    public class Path : SimulatedObject
     {
         public Point Point1 { get; set; }
         public Point Point2 { get; set; }
@@ -22,8 +22,11 @@ namespace GemeloDigital
             }
         }
 
-        public Path(Point p1, Point p2)
+        internal Path(Point p1, Point p2)
         {
+            Name = "Path";
+            Type = SimulatedObjectType.Path;
+
             Point1 = p1;
             Point2 = p2;
 

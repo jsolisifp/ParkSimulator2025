@@ -9,50 +9,47 @@ namespace GemeloDigital
 {
     public class SimulatedObject
     {
-        string name;
+        public string Name { get; set; }
 
-        public SimulatedObject()
+        /// <summary>
+        /// Tipo del objeto. "Any" para objeto de la clase base.
+        /// </summary>
+        public SimulatedObjectType Type { get; set; }
+
+        internal SimulatedObject()
         {
-            name = "Sin nombre";
+            Name = "Sin nombre";
+            Type = SimulatedObjectType.Any;
         }
 
-        public string GetName()
+        internal virtual void Start()
         {
-            return name;
+            // Nothing to do
         }
 
-        public void SetName(string _name)
+        internal virtual void Step()
         {
-            name = _name;
+            // Nothing to do
         }
 
-        public virtual void Start()
+        internal virtual void Stop()
         {
-            Console.WriteLine("SimObj " + name + ": Started");
+            // Nothing to do
         }
 
-        public virtual void Step()
-        {
-            Console.WriteLine("SimObj " + name + ": Stepped");
-        }
-        public virtual void Stop()
-        {
-            Console.WriteLine("SimObj " + name + ": Stopped");
-        }
-
-        public virtual float GetKPI(string kpi)
+        internal virtual float GetKPI(string kpi)
         {
             return 0;
         }
 
-        public virtual void StartKPIRecording(string name)
+        internal virtual void StartKPIRecording(string name)
         {
-            Console.WriteLine("");
+            // Nothing to do
         }
 
-        public virtual void StopKPIRecording(string name)
+        internal virtual void StopKPIRecording(string name)
         {
-
+            // Nothing to do
         }
     }
 }

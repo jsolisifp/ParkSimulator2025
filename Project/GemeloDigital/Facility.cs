@@ -11,7 +11,6 @@ namespace GemeloDigital
         public List<Point> Entrances { get { return entrances; } }
         public List<Point> Exits { get { return exits; } }
 
-        public string Name { get; set; }
         public float PowerConsumed { get; set; }
 
         List<Point> entrances;
@@ -19,8 +18,11 @@ namespace GemeloDigital
 
         float powerConsumedTotal;
 
-        public Facility(Point entrance, Point exit)
+        internal Facility(Point entrance, Point exit)
         {
+            Name = "Facility";
+            Type = SimulatedObjectType.Facility;
+
             entrances = new List<Point>();
             exits = new List<Point>();
 
@@ -28,22 +30,22 @@ namespace GemeloDigital
             exits.Add(exit);
         }
 
-        public override void Start()
+        internal override void Start()
         {
             powerConsumedTotal = 0;
 
         }
 
-        public override void Step()
+        internal override void Step()
         {
             powerConsumedTotal += PowerConsumed * Constants.hoursPerStep;
         }
 
-        public override void Stop()
+        internal override void Stop()
         {
         }
 
-        public override float GetKPI(string kpi)
+        internal override float GetKPI(string kpi)
         {
             if (kpi == Constants.kpiNameEnergy)
             {
@@ -55,13 +57,13 @@ namespace GemeloDigital
             }
         }
 
-        public override void StartKPIRecording(string name)
+        internal override void StartKPIRecording(string name)
         {
             base.StartKPIRecording(name);
 
         }
 
-        public override void StopKPIRecording(string name)
+        internal override void StopKPIRecording(string name)
         {
             base.StopKPIRecording(name);
 

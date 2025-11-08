@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("typ",["Property"],[["Type",,[["GemeloDigital.SimulatedObject",,,,0,"File:SimulatedObject.cs:GemeloDigital.SimulatedObject.Type","CSharpClass:GemeloDigital.SimulatedObject:Type"]]]]);
