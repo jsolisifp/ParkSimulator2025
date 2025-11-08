@@ -20,6 +20,8 @@ namespace GemeloDigital
             List<SimulatedObject> monitorizedObjects = new List<SimulatedObject>();
             List<string> monitorizedObjectKPIs = new List<string>();
 
+            bool showObjectPropertiesInList = false;
+
 
             while(menu != 0 || option != 0)
             {
@@ -46,9 +48,7 @@ namespace GemeloDigital
                 {
                     SimulatedObject o = objects[i];
 
-                    string name = o.Name;
-                    SimulatedObjectType type = o.Type;
-                    Console.WriteLine(tab + i + ": " + name + " [" + type + "]");
+                    Console.WriteLine(tab + i + ": " + ObjectToString(o, !showObjectPropertiesInList));
                 }
                 Console.WriteLine();
                 Console.WriteLine("-------  Objeto seleccionado   --------");
@@ -87,17 +87,19 @@ namespace GemeloDigital
                     Console.WriteLine(tab + tab + "1.- Objetos");
                     Console.WriteLine(tab + tab + "2.- Simulación");
                     Console.WriteLine(tab + tab + "3.- KPIs");
+                    Console.WriteLine(tab + tab + "4.- Opciones");
                     Console.WriteLine();
                     Console.WriteLine(tab + tab + "0.- Salir");
                     Console.WriteLine();
                     Console.WriteLine("--------------------------------------------");
                     Console.WriteLine();
 
-                    option = AskIntegerBetween("Opción", 0, 3);
+                    option = AskIntegerBetween("Opción", 0, 4);
 
                     if(option == 1) { menu = 1; }
                     else if(option == 2) { menu = 2; }
                     else if(option == 3) { menu = 3; }
+                    else if(option == 4) { menu = 4; }
 
                 }
                 else if(menu == 1)
@@ -108,13 +110,14 @@ namespace GemeloDigital
                     Console.WriteLine(tab + tab + "2.- Crear.");
                     Console.WriteLine(tab + tab + "3.- Modificar.");
                     Console.WriteLine(tab + tab + "4.- Eliminar.");
+                    Console.WriteLine(tab + tab + "5.- Generador de personas");
                     Console.WriteLine();
                     Console.WriteLine(tab + tab + "0.- Atrás");
                     Console.WriteLine();
                     Console.WriteLine("--------------------------------------------");
                     Console.WriteLine();
 
-                    option = AskIntegerBetween("Opción", 0, 4);
+                    option = AskIntegerBetween("Opción", 0, 5);
 
 
                     if(option == 1)
@@ -178,6 +181,34 @@ namespace GemeloDigital
                             menu = 0;
                         }
 
+                    }
+                    else if(option == 5)
+                    {
+                        PersonGenerator generator = SimulatorCore.CreatePersonGenerator();
+
+                        int amount = AskIntegerBetween("Cantidad", 10, 1000);
+
+                        Path path = null;
+                        Facility facility = null;
+                        if(SimulatorCore.CountObjectsOfType(SimulatedObjectType.Point) > 0)
+                        {
+                            SimulatedObject obj = PickObjectOrNull("Ubicar a todos en camino", "Camino", SimulatedObjectType.Path);
+                            path = SimulatorCore.AsPath(obj);
+                        }
+
+                        if(path == null && SimulatorCore.CountObjectsOfType(SimulatedObjectType.Facility) > 0)
+                        {
+                            SimulatedObject obj = PickObjectOrNull("Ubicar a todos en instalación", "Instalaciones", SimulatedObjectType.Facility);
+                            facility = SimulatorCore.AsFacility(obj);
+                        }
+
+                        for(int i = 0; i < amount; i ++)
+                        {
+                            Person p = generator.GeneratePerson();
+                            p.IsAtFacility = facility;
+                            p.IsAtPath = path;
+                        }
+                        
                     }
                     else
                     {
@@ -452,6 +483,22 @@ namespace GemeloDigital
                         menu = 0;
                         option = -1;
                     }
+                }
+                else if(menu == 4)
+                {
+                    Console.WriteLine("-------------- Opciones --------------");
+                    Console.WriteLine();
+                    Console.WriteLine(tab + tab + "1.- Mostrar propiedades en el listado de objetos");
+                    Console.WriteLine(tab + tab + "2.- Ocultar propiedades en el listado de objetos");
+                    Console.WriteLine();
+                    Console.WriteLine(tab + tab + "0.- Atrás.");
+                    Console.WriteLine();
+
+                    option = AskIntegerBetween("Opción", 0, 2);
+
+                    if(option == 1) { showObjectPropertiesInList = true; menu = 0; option = -1; }
+                    else if(option == 2) { showObjectPropertiesInList = false; menu = 0; option = -1; }
+                    else { menu = 0; option = -1; }
                 }
 
                 Console.Clear();

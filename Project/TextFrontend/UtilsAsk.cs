@@ -105,7 +105,7 @@ namespace GemeloDigital
             p.Weight = AskSingleBetween("Peso", 35, 120);
             p.Money = AskSingleBetween("Dinero", 10, 500);
 
-            SimulatedObject obj = ChooseObjectOrNull("Instalación", "Instalaciones", SimulatedObjectType.Facility);
+            SimulatedObject obj = PickObjectOrNull("Instalación", "Instalaciones", SimulatedObjectType.Facility);
             Facility facility = SimulatorCore.AsFacility(obj);
             p.IsAtFacility = facility;
 
@@ -115,7 +115,7 @@ namespace GemeloDigital
             }
             else
             {
-                obj = ChooseObjectOrNull("Camino", "Caminos", SimulatedObjectType.Path);
+                obj = PickObjectOrNull("Camino", "Caminos", SimulatedObjectType.Path);
                 Path path = SimulatorCore.AsPath(obj);
                 p.IsAtPath = path;
             }
@@ -182,6 +182,11 @@ namespace GemeloDigital
 
             p.Point1 = p1;
             p.Point2 = p2;
+        }
+
+        static void AskContinue()
+        {
+            Console.Write("pulsa [intro] para continuar");
         }
 
     }

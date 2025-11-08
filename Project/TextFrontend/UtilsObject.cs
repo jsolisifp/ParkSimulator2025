@@ -8,6 +8,62 @@ namespace GemeloDigital
 {
     internal partial class Program
     {
+        static string ObjectToString(SimulatedObject obj, bool brief)
+        {
+            string s;
+            if(obj == null) { s = "Ninguno"; }
+            else
+            {
+                s = obj.Name;
+                s += "(" + obj.Type + ")";
+
+                if(!brief)
+                {
+                    if(obj.Type == SimulatedObjectType.Facility)
+                    {
+                        Facility f = SimulatorCore.AsFacility(obj);
+                        s += ": Consumo: " + f.PowerConsumed;
+
+                        if(f.Entrances.Count > 0)
+                        {
+                            s += ": Entrada " + ObjectReferenceToString(f.Entrances[0]);
+                        }
+
+                        if(f.Exits.Count > 0)
+                        {
+                            s += ": Salida " + ObjectReferenceToString(f.Exits[0]);
+                        }
+                    }
+                    else if(obj.Type == SimulatedObjectType.Person)
+                    {
+                        Person p = SimulatorCore.AsPerson(obj);
+
+                        s += ": Edad " + p.Age;
+                        s += ": Altura " + p.Height;
+                        s += ": Peso " + p.Weight;
+                        s += ": Dinero " + p.Money;
+
+                        s += ": Instalación " + ObjectReferenceToString(p.IsAtFacility);
+                        s += ": Camino " + ObjectReferenceToString(p.IsAtPath);
+                    }
+                    else if(obj.Type == SimulatedObjectType.Point)
+                    {
+                        Point p = SimulatorCore.AsPoint(obj);
+                        s += ": Posición (" + p.Position.X + ", " + p.Position.Y + ", "  + p.Position.Z + ")";
+                    }
+                    else if(obj.Type == SimulatedObjectType.Path)
+                    {
+                        Path p = SimulatorCore.AsPath(obj);
+
+                        s += ": Punto1 " + ObjectReferenceToString(p.Point1);
+                        s += ": Punto2 " + ObjectReferenceToString(p.Point2);
+                    }
+                }
+            }
+
+            return s;
+        }
+
         static string ObjectReferenceToString(SimulatedObject obj)
         {
             string s;
@@ -75,7 +131,7 @@ namespace GemeloDigital
             return objects[index];
         }
 
-        static SimulatedObject ChooseObjectOrNull(string prompt, string typeName, SimulatedObjectType type)
+        static SimulatedObject PickObjectOrNull(string prompt, string typeName, SimulatedObjectType type)
         {
             if(SimulatorCore.CountObjectsOfType(type) == 0)
             {
