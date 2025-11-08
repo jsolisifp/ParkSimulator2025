@@ -8,16 +8,35 @@ namespace GemeloDigital
 {
     public class Person : SimulatedObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Facility? IsAtFacility { get; set; }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Path? IsAtPath { get; set; }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int Age { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public float Height { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public float Weight { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public float Money { get; set; }
 
         internal Person()

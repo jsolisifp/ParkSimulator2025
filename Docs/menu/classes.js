@@ -1,1 +1,1 @@
-﻿NDMenu.OnSectionLoaded("classes.js",[[1,"SimulatedObject"],[1,"SimulatorCore"]]);
+﻿NDMenu.OnSectionLoaded("classes.js",[[1,"PersonGenerator"],[1,"SimulatedObject"],[1,"SimulatorCore"]]);

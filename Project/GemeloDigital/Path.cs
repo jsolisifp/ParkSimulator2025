@@ -9,11 +9,24 @@ namespace GemeloDigital
 {
     public class Path : SimulatedObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Point Point1 { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Point Point2 { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int CapacityPersons { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public float Distance
         {
             get

@@ -8,9 +8,19 @@ namespace GemeloDigital
 {
     public class Facility : SimulatedObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public List<Point> Entrances { get { return entrances; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public List<Point> Exits { get { return exits; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public float PowerConsumed { get; set; }
 
         List<Point> entrances;

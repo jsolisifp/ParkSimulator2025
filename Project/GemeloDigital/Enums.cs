@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace GemeloDigital
 {
+    /// <summary>
+    /// Tipo de objeto simulado. "Any" se utiliza para
+    /// indicar la clase base.
+    /// </summary>
     public enum SimulatedObjectType
     {
         Any,
@@ -15,6 +19,10 @@ namespace GemeloDigital
         Path
     }
 
+    /// <summary>
+    /// Estado de la simulación. Ciertas operaciones
+    /// sólo pueden hacerse en ciertos estados.
+    /// </summary>
     public enum SimulatorState
     {
         Stopped,

@@ -1,1 +1,1 @@
-﻿NDMenu.OnSectionLoaded("files.js",[[1,"SimulatedObject.cs"],[1,"SimulatorCore.cs"]]);
+﻿NDMenu.OnSectionLoaded("files.js",[[1,"Enums.cs"],[1,"PersonGenerator.cs"],[1,"SimulatedObject.cs"],[1,"SimulatorCore.cs"]]);
