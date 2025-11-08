@@ -16,6 +16,11 @@ namespace GemeloDigital
 
         }
 
+        /// <summary>
+        /// Crea una persona con propiedades aleatorias
+        /// dentro de un cierto perfil
+        /// </summary>
+        /// <returns>La persona creada</returns>
         public virtual Person GeneratePerson()
         {
             Person person;

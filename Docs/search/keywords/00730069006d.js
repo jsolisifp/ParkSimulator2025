@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("sim",["Enumeration"],[["SimulatedObjectType",,[["GemeloDigital",,,,0,"File:Enums.cs:GemeloDigital.SimulatedObjectType"]]],["SimulatorState",,[["GemeloDigital",,,,0,"File:Enums.cs:GemeloDigital.SimulatorState"]]]]);

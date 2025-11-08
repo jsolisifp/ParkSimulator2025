@@ -10,31 +10,31 @@ namespace GemeloDigital
     {
         // Simulation
 
-        public const float hoursPerStep = 0.5f;
+        internal const float hoursPerStep = 0.5f;
 
         // KPIs
 
-        public const string kpiNameEnergy = "E";
+        internal const string kpiNameEnergy = "E";
 
 
         // Person generator
 
-        public const int personsTotal = 2500;
+        internal const int personsTotal = 2500;
 
-        public const int personAgeMin = 12;
-        public const int personAgeYoungMin = 16;
-        public const int personAgeAdultMin = 35;
-        public const int personAgeSeniorMin = 65;
-        public const int personAgeMax = 100;
+        internal const int personAgeMin = 12;
+        internal const int personAgeYoungMin = 16;
+        internal const int personAgeAdultMin = 35;
+        internal const int personAgeSeniorMin = 65;
+        internal const int personAgeMax = 100;
 
-        public const float personHeightChildMin = 1.1f;
-        public const float personHeightChildMax = 1.6f;
-        public const float personHeightYoungMin = 1.6f;
-        public const float personHeightYoungMax = 2.0f;
-        public const float personHeightAdultMin = 1.6f;
-        public const float personHeightAdultMax = 2.0f;
-        public const float personHeightSeniorMin = 1.5f;
-        public const float personHeightSeniorMax = 1.8f;
+        internal const float personHeightChildMin = 1.1f;
+        internal const float personHeightChildMax = 1.6f;
+        internal const float personHeightYoungMin = 1.6f;
+        internal const float personHeightYoungMax = 2.0f;
+        internal const float personHeightAdultMin = 1.6f;
+        internal const float personHeightAdultMax = 2.0f;
+        internal const float personHeightSeniorMin = 1.5f;
+        internal const float personHeightSeniorMax = 1.8f;
 
 
 

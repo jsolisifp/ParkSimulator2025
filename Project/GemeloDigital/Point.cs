@@ -9,6 +9,9 @@ namespace GemeloDigital
 {
     public class Point : SimulatedObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 Position { get; set; }
 
         internal Point()

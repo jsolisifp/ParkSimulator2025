@@ -1,1 +1,1 @@
-﻿NDContentPage.OnToolTipsLoaded({});
+﻿NDContentPage.OnToolTipsLoaded({34:"<div class=\"NDToolTip TEnumeration LCSharp\"><div id=\"NDPrototype34\" class=\"NDPrototype\"><div class=\"PSection PPlainSection\"><span class=\"SHKeyword\">public enum</span> SimulatedObjectType</div></div><div class=\"TTSummary\">Tipo de objeto simulado. &quot;Any&quot; se utiliza para indicar la clase base.</div></div>"});
