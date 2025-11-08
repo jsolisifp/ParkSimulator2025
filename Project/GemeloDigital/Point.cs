@@ -11,7 +11,7 @@ namespace GemeloDigital
     {
         public Vector3 Position { get; set; }
 
-        public Point()
+        internal Point()
         {
             Name = "Point";
             Type = SimulatedObjectType.Point;

@@ -22,7 +22,7 @@ namespace GemeloDigital
             }
         }
 
-        public Path(Point p1, Point p2)
+        internal Path(Point p1, Point p2)
         {
             Name = "Path";
             Type = SimulatedObjectType.Path;

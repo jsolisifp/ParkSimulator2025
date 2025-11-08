@@ -117,7 +117,7 @@ namespace GemeloDigital
 
         static SimulatedObject PickObject(string prompt, string typeName, SimulatedObjectType type)
         {
-            List<SimulatedObject> objects = SimulatorCore.GetObjectsOfType(type);
+            List<SimulatedObject> objects = SimulatorCore.FindObjectsOfType(type);
 
             Console.WriteLine(typeName);
 

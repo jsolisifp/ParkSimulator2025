@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("CSharpClass:GemeloDigital.SimulatedObject","SimulatedObject");NDSummary.OnSummaryLoaded("CSharpClass:GemeloDigital.SimulatedObject",[["C#","CSharp"]],[["Groups","Group"],["Properties","Property"]],[[1,0,0,"Properties","Properties"],[2,0,1,"Type","Type"]]);

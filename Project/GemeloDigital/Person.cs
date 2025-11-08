@@ -9,6 +9,8 @@ namespace GemeloDigital
     public class Person : SimulatedObject
     {
         public Facility? IsAtFacility { get; set; }
+
+
         public Path? IsAtPath { get; set; }
 
 
@@ -18,30 +20,30 @@ namespace GemeloDigital
         public float Weight { get; set; }
         public float Money { get; set; }
 
-        public Person()
+        internal Person()
         {
             Name = "Person";
             Type = SimulatedObjectType.Person;
         }
 
-        public override void Start()
+        internal override void Start()
         {
         }
 
-        public override void Step()
+        internal override void Step()
         {
         }
 
-        public override void Stop()
+        internal override void Stop()
         {
         }
 
-        public override void StartKPIRecording(string name)
+        internal override void StartKPIRecording(string name)
         {
             base.StartKPIRecording(name);
         }
 
-        public override void StopKPIRecording(string name)
+        internal override void StopKPIRecording(string name)
         {
             base.StopKPIRecording(name);
 

@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("asf",["Function"],[["AsFacility",,[["GemeloDigital.SimulatorCore",,,,0,"File:SimulatorCore.cs:GemeloDigital.SimulatorCore.AsFacility","CSharpClass:GemeloDigital.SimulatorCore:AsFacility"]]]]);

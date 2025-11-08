@@ -10,7 +10,7 @@ namespace GemeloDigital
     {
         protected Random random;
 
-        public PersonGenerator()
+        internal PersonGenerator()
         {
              random = new Random();
 

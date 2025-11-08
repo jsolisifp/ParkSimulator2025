@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("del",["Function"],[["DeleteObject",,[["GemeloDigital.SimulatorCore",,,,0,"File:SimulatorCore.cs:GemeloDigital.SimulatorCore.DeleteObject","CSharpClass:GemeloDigital.SimulatorCore:DeleteObject"]]]]);

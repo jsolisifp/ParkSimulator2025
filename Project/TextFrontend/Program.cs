@@ -184,7 +184,7 @@ namespace GemeloDigital
                     }
                     else if(option == 5)
                     {
-                        PersonGenerator generator = SimulatorCore.CreatePersonGenerator();
+                        PersonGenerator generator = SimulatorCore.CreatePersonGeneratorUtility();
 
                         int amount = AskIntegerBetween("Cantidad", 10, 1000);
 
@@ -279,7 +279,7 @@ namespace GemeloDigital
                     }
                     else if(option == 4)
                     {
-                        List<SimulatedObject> points = SimulatorCore.GetObjectsOfType(SimulatedObjectType.Point);
+                        List<SimulatedObject> points = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
 
                         if(points.Count > 1)
                         {

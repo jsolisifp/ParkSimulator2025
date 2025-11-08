@@ -14,10 +14,19 @@ namespace GemeloDigital
         /// </summary>
         public static string Version { get { return version; } }
 
+        /// <summary>
+        /// Devuelve el estado del simulador
+        /// </summary>
         public static SimulatorState State { get { return state; }  }
 
+        /// <summary>
+        /// Devuelve los pasos que se han simulado desde el último start
+        /// </summary>
         public static int Steps { get { return steps; } }
 
+        /// <summary>
+        /// Devuelve el tiempo en horas que se ha simulado desde el último start
+        /// </summary>
         public static float Time { get { return steps * Constants.hoursPerStep; } }
 
         const string version = "4";
@@ -27,9 +36,9 @@ namespace GemeloDigital
         static List<SimulatedObject> simulatedObjects;
 
         /// <summary>
-        /// Inicia el sistema. Debe llamarse
+        /// Inicia el simulador. Debe llamarse
         /// una vez antes de utilizar cualquier otra
-        /// función.
+        /// función de esta clase.
         /// </summary>
         public static void Initialize()
         {
@@ -39,8 +48,8 @@ namespace GemeloDigital
         }
 
         /// <summary>
-        /// Inicia una simulación. La simulación debe
-        /// estar parada
+        /// Arranca una simulación. El estado del simulador
+        /// debe ser Stopped
         /// </summary>
         public static void Start()
         {
@@ -55,8 +64,8 @@ namespace GemeloDigital
         }
 
         /// <summary>
-        /// Realiza un paso de simulación. La simulación
-        /// debe estar arrancada
+        /// Ejecuta un paso de simulación. El estado del simulador
+        /// debe ser Running
         /// </summary>
         public static void Step()
         {
@@ -70,8 +79,8 @@ namespace GemeloDigital
         }
 
         /// <summary>
-        /// Para la simulación. La simulación debe estar
-        /// arrancada
+        /// Detiene la simulación. El estado del simulador debe
+        /// ser running
         /// </summary>
         public static void Stop()
         {
@@ -85,8 +94,8 @@ namespace GemeloDigital
 
 
         /// <summary>
-        /// Finaliza el sistema. No pueden llamarse a
-        /// más funciones después de ésta.
+        /// Finaliza el simulador. No pueden llamarse a
+        /// más funciones de la clase después de ésta.
         /// </summary>
         public static void Finish()
         {
@@ -94,6 +103,12 @@ namespace GemeloDigital
 
         }
 
+
+        /// <summary>
+        /// Crea una persona con propiedades por defecto y la 
+        /// añade al listado de objetos simulados
+        /// </summary>
+        /// <returns>La persona creada</returns>
         public static Person CreatePerson()
         {
             Person p = new Person();
@@ -102,13 +117,23 @@ namespace GemeloDigital
             return p;
         }
 
-        public static PersonGenerator CreatePersonGenerator()
+        /// <summary>
+        /// Crea un objeto que permite crear personas fácilmente
+        /// con unas propiedades aleatorizadas
+        /// </summary>
+        /// <returns>El generador de personas</returns>
+        public static PersonGenerator CreatePersonGeneratorUtility()
         {
             PersonGenerator g = new PersonGenerator();
 
             return g;
         }
 
+        /// <summary>
+        /// Crea una instalación con propiedades por defecto y la 
+        /// añade al listado de objetos simulados
+        /// </summary>
+        /// <returns>La instalación creada</returns>
         public static Facility CreateFacility(Point entrance, Point exit)
         {
             Facility f = new Facility(entrance, exit);
@@ -117,6 +142,11 @@ namespace GemeloDigital
             return f;
         }
 
+        /// <summary>
+        /// Crea un punto con propiedades por defecto y lo
+        /// añade al listado de objetos simulados
+        /// </summary>
+        /// <returns>El punto creado</returns>
         public static Point CreatePoint()
         {
             Point p = new Point();
@@ -125,6 +155,13 @@ namespace GemeloDigital
             return p;
         }
 
+
+        /// <summary>
+        /// Crea un camino entre los dos puntos, que deben ser diferentes
+        /// </summary>
+        /// <param name="p1">Primer punto que conecta el camino</param>
+        /// <param name="p2">Segundo punto que conecta el camino</param>
+        /// <returns>El camino creado</returns>
         public static Path CreatePath(Point p1, Point p2)
         {
             Path p = new Path(p1, p2);
@@ -133,11 +170,31 @@ namespace GemeloDigital
             return p;
         }
 
+        /// <summary>
+        /// Elimina un objeto del listado de objetos simulados
+        /// </summary>
+        /// <param name="obj">El objeto a eliminar</param>
+        public static void DeleteObject(SimulatedObject obj)
+        {
+            simulatedObjects.Remove(obj);
+        }
+
+        /// <summary>
+        /// Devuelve el listado de objetos simulados
+        /// </summary>
+        /// <returns>El listado de objetos simulados</returns>
         public static List<SimulatedObject> GetObjects()
         {
             return simulatedObjects;
         }
 
+
+        /// <summary>
+        /// Cuenta los objetos de un cierto tipo que existen en la lista
+        /// de objetos simulados
+        /// </summary>
+        /// <param name="type">Tipo de objeto a contar</param>
+        /// <returns>Cantidad de objetos encontrados</returns>
         public static int CountObjectsOfType(SimulatedObjectType type)
         {
             int count = 0;
@@ -151,7 +208,12 @@ namespace GemeloDigital
             return count;
         }
 
-        public static List<SimulatedObject> GetObjectsOfType(SimulatedObjectType type)
+        /// <summary>
+        /// Busca los objetos de un cierto tipo y los devuelve en una lista
+        /// </summary>
+        /// <param name="type">Tipo de objetos a recopilar</param>
+        /// <returns>Objetos del tipo encontrados</returns>
+        public static List<SimulatedObject> FindObjectsOfType(SimulatedObjectType type)
         {
             List<SimulatedObject> objects = new List<SimulatedObject>();
             
@@ -164,31 +226,51 @@ namespace GemeloDigital
             return objects;
         }
 
+        /// <summary>
+        /// Convierte el objeto en una persona.
+        /// </summary>
+        /// <param name="obj">El objeto a convertir</param>
+        /// <returns>El objeto convertido en persona</returns>
         public static Person AsPerson(SimulatedObject obj)
         {
             return (Person)obj;
         }
 
+        /// <summary>
+        /// Convierte el objeto en una instalación.
+        /// </summary>
+        /// <param name="obj">El objeto a convertir</param>
+        /// <returns>El objeto convertido en instalación</returns>
         public static Facility AsFacility(SimulatedObject obj)
         {
             return (Facility)obj;
         }
 
+        /// <summary>
+        /// Convierte el objeto en un punto.
+        /// </summary>
+        /// <param name="obj">El objeto a convertir</param>
+        /// <returns>El objeto convertido en punto</returns>
         public static Point AsPoint(SimulatedObject obj)
         {
             return (Point)obj;
         }
 
+        /// <summary>
+        /// Convierte el objeto en un camino.
+        /// </summary>
+        /// <param name="obj">El objeto a convertir</param>
+        /// <returns>El objeto convertido en un camino</returns>
         public static Path AsPath(SimulatedObject obj)
         {
             return (Path)obj;
         }
 
-        public static void DeleteObject(SimulatedObject obj)
-        {
-            simulatedObjects.Remove(obj);
-        }
-
+        /// <summary>
+        /// Devuelve el valor de un KPI general
+        /// </summary>
+        /// <param name="kpi">Nombre del KPI</param>
+        /// <returns>Valor del KPI</returns>
         public static float GetGeneralKPI(string kpi)
         {
             float total = 0;
@@ -201,29 +283,53 @@ namespace GemeloDigital
             return total;
         }
 
-        public static float GetObjectKPI(SimulatedObject simObj, string kpiName)
+        /// <summary>
+        /// Devuelve el valor de un KPI de un objeto
+        /// </summary>
+        /// <param name="obj">El objeto</param>
+        /// <param name="kpi">Nombre del KPI</param>
+        /// <returns></returns>
+        public static float GetObjectKPI(SimulatedObject obj, string kpi)
         {
-            return simObj.GetKPI(kpiName);
+            return obj.GetKPI(kpi);
         }
 
-        public static void StartGeneralKPIRecording(string name)
+        /// <summary>
+        /// Inicia la grabación de un KPI general
+        /// </summary>
+        /// <param name="kpi"></param>
+        public static void StartGeneralKPIRecording(string kpi)
         {
             //...
         }
 
-        public static void StopGeneralKPIRecording(string name)
+        /// <summary>
+        /// Detiene la grabación de un KPI general
+        /// </summary>
+        /// <param name="kpi"></param>
+        public static void StopGeneralKPIRecording(string kpi)
         {
             //...
         }
 
-        public static void StartObjectKPIRecording(SimulatedObject simObj, string kpiName)
+        /// <summary>
+        /// Inicia la grabación de un KPI de objeto.
+        /// </summary>
+        /// <param name="simObj">El objeto</param>
+        /// <param name="kpi">El KPI</param>
+        public static void StartObjectKPIRecording(SimulatedObject simObj, string kpi)
         {
-            simObj.StartKPIRecording(kpiName);
+            simObj.StartKPIRecording(kpi);
         }
 
-        public static void StopObjectKPIRecording(SimulatedObject simObj, string kpiName)
+        /// <summary>
+        /// Detiene la grabación de un KPI de objeto.
+        /// </summary>
+        /// <param name="simObj"></param>
+        /// <param name="kpi"></param>
+        public static void StopObjectKPIRecording(SimulatedObject simObj, string kpi)
         {
-            simObj.StopKPIRecording(kpiName);
+            simObj.StopKPIRecording(kpi);
         }
 
     }
