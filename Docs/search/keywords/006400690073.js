@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("dis",["Property"],[["Distance",,[["GemeloDigital.Path",,,,0,"File:Path.cs:GemeloDigital.Path.Distance","CSharpClass:GemeloDigital.Path:Distance"]]]]);

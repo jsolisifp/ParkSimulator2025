@@ -10,7 +10,7 @@ namespace GemeloDigital
     public class Point : SimulatedObject
     {
         /// <summary>
-        /// 
+        /// Coordenadas del punto
         /// </summary>
         public Vector3 Position { get; set; }
 

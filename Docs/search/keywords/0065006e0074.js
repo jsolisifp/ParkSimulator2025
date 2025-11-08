@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("ent",["Property"],[["Entrances",,[["GemeloDigital.Facility",,,,0,"File:Facility.cs:GemeloDigital.Facility.Entrances","CSharpClass:GemeloDigital.Facility:Entrances"]]]]);

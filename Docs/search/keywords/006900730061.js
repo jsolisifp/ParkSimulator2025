@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("isa",["Property"],[["IsAtFacility",,[["GemeloDigital.Person",,,,0,"File:Person.cs:GemeloDigital.Person.IsAtFacility","CSharpClass:GemeloDigital.Person:IsAtFacility"]]],["IsAtPath",,[["GemeloDigital.Person",,,,0,"File:Person.cs:GemeloDigital.Person.IsAtPath","CSharpClass:GemeloDigital.Person:IsAtPath"]]]]);

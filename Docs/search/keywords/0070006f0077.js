@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("pow",["Property"],[["PowerConsumed",,[["GemeloDigital.Facility",,,,0,"File:Facility.cs:GemeloDigital.Facility.PowerConsumed","CSharpClass:GemeloDigital.Facility:PowerConsumed"]]]]);

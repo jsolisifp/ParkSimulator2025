@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("CSharpClass:GemeloDigital.Path","Path");NDSummary.OnSummaryLoaded("CSharpClass:GemeloDigital.Path",[["C#","CSharp"]],[["Groups","Group"],["Properties","Property"]],[[52,0,0,"Properties","Properties"],[53,0,1,"Point1","Point1"],[54,0,1,"Point2","Point2"],[55,0,1,"CapacityPersons","CapacityPersons"],[56,0,1,"Distance","Distance"]]);

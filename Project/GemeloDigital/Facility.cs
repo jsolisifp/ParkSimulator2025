@@ -9,17 +9,17 @@ namespace GemeloDigital
     public class Facility : SimulatedObject
     {
         /// <summary>
-        /// 
+        /// Entradas de la instalación
         /// </summary>
         public List<Point> Entrances { get { return entrances; } }
 
         /// <summary>
-        /// 
+        /// Salidas de la instalación 
         /// </summary>
         public List<Point> Exits { get { return exits; } }
 
         /// <summary>
-        /// 
+        /// Consumo en KW/h
         /// </summary>
         public float PowerConsumed { get; set; }
 

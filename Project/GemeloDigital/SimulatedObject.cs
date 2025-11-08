@@ -10,7 +10,7 @@ namespace GemeloDigital
     public class SimulatedObject
     {
         /// <summary>
-        /// 
+        /// Nombre del objeto simulado
         /// </summary>
         public string Name { get; set; }
 

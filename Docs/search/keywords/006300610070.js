@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("cap",["Property"],[["CapacityPersons",,[["GemeloDigital.Path",,,,0,"File:Path.cs:GemeloDigital.Path.CapacityPersons","CSharpClass:GemeloDigital.Path:CapacityPersons"]]]]);

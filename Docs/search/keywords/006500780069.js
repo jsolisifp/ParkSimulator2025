@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("exi",["Property"],[["Exits",,[["GemeloDigital.Facility",,,,0,"File:Facility.cs:GemeloDigital.Facility.Exits","CSharpClass:GemeloDigital.Facility:Exits"]]]]);

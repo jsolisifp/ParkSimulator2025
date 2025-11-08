@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("CSharpClass:GemeloDigital.Point","Point");NDSummary.OnSummaryLoaded("CSharpClass:GemeloDigital.Point",[["C#","CSharp"]],[["Groups","Group"],["Properties","Property"]],[[50,0,0,"Properties","Properties"],[51,0,1,"Position","Position"]]);

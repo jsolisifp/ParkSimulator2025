@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("pos",["Property"],[["Position",,[["GemeloDigital.Point",,,,0,"File:Point.cs:GemeloDigital.Point.Position","CSharpClass:GemeloDigital.Point:Position"]]]]);

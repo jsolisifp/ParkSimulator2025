@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("CSharpClass:GemeloDigital.Facility","Facility");NDSummary.OnSummaryLoaded("CSharpClass:GemeloDigital.Facility",[["C#","CSharp"]],[["Groups","Group"],["Properties","Property"]],[[46,0,0,"Properties","Properties"],[47,0,1,"Entrances","Entrances"],[48,0,1,"Exits","Exits"],[49,0,1,"PowerConsumed","PowerConsumed"]]);

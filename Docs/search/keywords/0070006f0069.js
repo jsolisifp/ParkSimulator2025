@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("poi",["Property"],[["Point1",,[["GemeloDigital.Path",,,,0,"File:Path.cs:GemeloDigital.Path.Point1","CSharpClass:GemeloDigital.Path:Point1"]]],["Point2",,[["GemeloDigital.Path",,,,0,"File:Path.cs:GemeloDigital.Path.Point2","CSharpClass:GemeloDigital.Path:Point2"]]]]);
