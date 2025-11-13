@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("wei",["Property"],[["Weight",,[["GemeloDigital.Person",,,,0,"File:Person.cs:GemeloDigital.Person.Weight","CSharpClass:GemeloDigital.Person:Weight"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("wei",["Property"],[["Weight",,[["GemeloDigital.Person",,,,0,"File:Core/Person.cs:GemeloDigital.Person.Weight","CSharpClass:GemeloDigital.Person:Weight"]]]]);

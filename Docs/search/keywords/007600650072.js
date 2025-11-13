@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("ver",["Property"],[["Version",,[["GemeloDigital.SimulatorCore",,,,0,"File:SimulatorCore.cs:GemeloDigital.SimulatorCore.Version","CSharpClass:GemeloDigital.SimulatorCore:Version"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("ver",["Property"],[["Version",,[["GemeloDigital.SimulatorCore",,,,0,"File:Core/SimulatorCore.cs:GemeloDigital.SimulatorCore.Version","CSharpClass:GemeloDigital.SimulatorCore:Version"]]]]);

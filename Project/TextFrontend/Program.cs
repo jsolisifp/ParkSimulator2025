@@ -84,25 +84,74 @@ namespace GemeloDigital
                 {
                     Console.WriteLine("-------------- Menú principal --------------");
                     Console.WriteLine();
-                    Console.WriteLine(tab + tab + "1.- Objetos");
-                    Console.WriteLine(tab + tab + "2.- Simulación");
-                    Console.WriteLine(tab + tab + "3.- KPIs");
-                    Console.WriteLine(tab + tab + "4.- Opciones");
+                    Console.WriteLine(tab + tab + "1.- Escena");
+                    Console.WriteLine(tab + tab + "2.- Objetos");
+                    Console.WriteLine(tab + tab + "3.- Simulación");
+                    Console.WriteLine(tab + tab + "4.- KPIs");
+                    Console.WriteLine(tab + tab + "5.- Opciones");
                     Console.WriteLine();
                     Console.WriteLine(tab + tab + "0.- Salir");
                     Console.WriteLine();
                     Console.WriteLine("--------------------------------------------");
                     Console.WriteLine();
 
-                    option = AskIntegerBetween("Opción", 0, 4);
+                    option = AskIntegerBetween("Opción", 0, 5);
 
                     if(option == 1) { menu = 1; }
                     else if(option == 2) { menu = 2; }
                     else if(option == 3) { menu = 3; }
                     else if(option == 4) { menu = 4; }
+                    else if(option == 5) { menu = 5; }
 
                 }
                 else if(menu == 1)
+                {
+                    Console.WriteLine("-------------- Escena --------------");
+                    Console.WriteLine();
+                    Console.WriteLine(tab + tab + "1.- Nueva escena");
+                    Console.WriteLine(tab + tab + "2.- Cargar escena.");
+                    Console.WriteLine(tab + tab + "3.- Guardar escena.");
+                    Console.WriteLine(tab + tab + "4.- Eliminar escena.");
+                    Console.WriteLine();
+                    Console.WriteLine(tab + tab + "0.- Atrás");
+                    Console.WriteLine();
+                    Console.WriteLine("--------------------------------------------");
+                    Console.WriteLine();
+
+                    option = AskIntegerBetween("Opción", 0, 4);
+
+                    if(option == 1)
+                    {
+                        SimulatorCore.NewScene();
+                        selectedObject = null;
+                    }
+                    else if(option == 2)
+                    {
+                        string? scene = PickScene();
+
+                        if(scene != null)
+                        {
+                            SimulatorCore.LoadScene(scene);
+                            selectedObject = null;
+                        }
+                    }
+                    else if(option == 3)
+                    {
+                        string scene = AskString("Nombre de escena");
+                        SimulatorCore.SaveScene(scene);
+                    }
+                    else if(option == 4)
+                    {
+                        string scene = PickScene();
+                        SimulatorCore.DeleteScene(scene);
+                    }
+                    else
+                    {
+                        menu = 0;
+                        option = -1;
+                    }
+                }
+                else if(menu == 2)
                 {
                     Console.WriteLine("-------------- Objetos --------------");
                     Console.WriteLine();
@@ -132,7 +181,7 @@ namespace GemeloDigital
                             selectedObject = PickObject("Objeto", "Listado", SimulatedObjectType.Any);
                         }
                     }
-                    else if(option == 2) { menu = 12; }
+                    else if(option == 2) { menu = 22; }
                     else if(option == 3)
                     {
                         if(selectedObject == null)
@@ -217,7 +266,7 @@ namespace GemeloDigital
                     }
 
                 }
-                else if(menu == 12)
+                else if(menu == 22)
                 {
                     Console.WriteLine("-------------- Crear objeto --------------");
                     Console.WriteLine();
@@ -312,10 +361,10 @@ namespace GemeloDigital
                     }
                     else if(option == 0)
                     {
-                        menu = 1;
+                        menu = 2;
                     }
                 }
-                else if(menu == 2)
+                else if(menu == 3)
                 {
                     Console.WriteLine("-------------- Simulación --------------");
                     Console.WriteLine();
@@ -371,7 +420,7 @@ namespace GemeloDigital
 
                     }
                 }
-                else if(menu == 3)
+                else if(menu == 4)
                 {
                     Console.WriteLine("-------------- KPIs --------------");
                     Console.WriteLine();
@@ -484,7 +533,7 @@ namespace GemeloDigital
                         option = -1;
                     }
                 }
-                else if(menu == 4)
+                else if(menu == 5)
                 {
                     Console.WriteLine("-------------- Opciones --------------");
                     Console.WriteLine();

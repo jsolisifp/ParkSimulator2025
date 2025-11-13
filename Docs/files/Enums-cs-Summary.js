@@ -1,1 +1,0 @@
-﻿NDFramePage.OnPageTitleLoaded("File:Enums.cs","Enums.cs");NDSummary.OnSummaryLoaded("File:Enums.cs",[["C#","CSharp"]],[["Enums","Enumeration"],["Groups","Group"]],[[33,0,1,"Types","GemeloDigital.Types"],[34,0,0,"SimulatedObjectType","GemeloDigital.SimulatedObjectType"],[35,0,0,"SimulatorState","GemeloDigital.SimulatorState"]]);
