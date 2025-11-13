@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:Core/PersonGenerator.cs","PersonGenerator.cs");NDSummary.OnSummaryLoaded("File:Core/PersonGenerator.cs",[["C#","CSharp"]],[["Functions","Function"],["Groups","Group"]],[[1,0,1,"Functions","GemeloDigital.PersonGenerator.Functions"],[2,0,0,"GeneratePerson","GemeloDigital.PersonGenerator.GeneratePerson"]]);

@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("ini",["Function"],[["Initialize",,[["GemeloDigital.SimulatorCore",,,,0,"File:SimulatorCore.cs:GemeloDigital.SimulatorCore.Initialize","CSharpClass:GemeloDigital.SimulatorCore:Initialize"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("ini",["Function"],[["Initialize",,[["GemeloDigital.SimulatorCore",,,,0,"File:Core/SimulatorCore.cs:GemeloDigital.SimulatorCore.Initialize","CSharpClass:GemeloDigital.SimulatorCore:Initialize"]]]]);

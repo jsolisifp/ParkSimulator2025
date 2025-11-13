@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="UtilsScene.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GemeloDigital\GemeloDigital.csproj" />
   </ItemGroup>
 

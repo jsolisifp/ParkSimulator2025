@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:Core/Point.cs","Point.cs");NDSummary.OnSummaryLoaded("File:Core/Point.cs",[["C#","CSharp"]],[["Groups","Group"],["Properties","Property"]],[[3,0,0,"Properties","GemeloDigital.Point.Properties"],[4,0,1,"Position","GemeloDigital.Point.Position"]]);

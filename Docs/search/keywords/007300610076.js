@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("sav",["Function"],[["SaveScene",,[["GemeloDigital.SimulatorCore",,,,0,"File:Core/SimulatorCore.cs:GemeloDigital.SimulatorCore.SaveScene","CSharpClass:GemeloDigital.SimulatorCore:SaveScene"]]]]);

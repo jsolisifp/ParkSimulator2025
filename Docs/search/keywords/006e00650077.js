@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("new",["Function"],[["NewScene",,[["GemeloDigital.SimulatorCore",,,,0,"File:Core/SimulatorCore.cs:GemeloDigital.SimulatorCore.NewScene","CSharpClass:GemeloDigital.SimulatorCore:NewScene"]]]]);

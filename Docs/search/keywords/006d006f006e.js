@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("mon",["Property"],[["Money",,[["GemeloDigital.Person",,,,0,"File:Person.cs:GemeloDigital.Person.Money","CSharpClass:GemeloDigital.Person:Money"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("mon",["Property"],[["Money",,[["GemeloDigital.Person",,,,0,"File:Core/Person.cs:GemeloDigital.Person.Money","CSharpClass:GemeloDigital.Person:Money"]]]]);

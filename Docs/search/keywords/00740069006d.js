@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("tim",["Property"],[["Time",,[["GemeloDigital.SimulatorCore",,,,0,"File:SimulatorCore.cs:GemeloDigital.SimulatorCore.Time","CSharpClass:GemeloDigital.SimulatorCore:Time"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("tim",["Property"],[["Time",,[["GemeloDigital.SimulatorCore",,,,0,"File:Core/SimulatorCore.cs:GemeloDigital.SimulatorCore.Time","CSharpClass:GemeloDigital.SimulatorCore:Time"]]]]);

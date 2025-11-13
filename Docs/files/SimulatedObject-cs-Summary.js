@@ -1,1 +1,0 @@
-﻿NDFramePage.OnPageTitleLoaded("File:SimulatedObject.cs","SimulatedObject.cs");NDSummary.OnSummaryLoaded("File:SimulatedObject.cs",[["C#","CSharp"]],[["Groups","Group"],["Properties","Property"]],[[1,0,0,"Properties","GemeloDigital.SimulatedObject.Properties"],[38,0,1,"Name","GemeloDigital.SimulatedObject.Name"],[2,0,1,"Type","GemeloDigital.SimulatedObject.Type"]]);
