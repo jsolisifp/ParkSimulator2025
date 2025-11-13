@@ -28,6 +28,7 @@ namespace GemeloDigital
         {
             Name = "Sin nombre";
             Type = SimulatedObjectType.Any;
+            Id = Guid.NewGuid().ToString();
         }
 
         internal virtual void Start()
