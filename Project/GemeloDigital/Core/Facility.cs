@@ -11,12 +11,12 @@ namespace GemeloDigital
         /// <summary>
         /// Entradas de la instalación
         /// </summary>
-        public List<Point> Entrances { get { return entrances; } }
+        public List<Point> Entrances { get { return entrances; } set { entrances = value; } }
 
         /// <summary>
         /// Salidas de la instalación 
         /// </summary>
-        public List<Point> Exits { get { return exits; } }
+        public List<Point> Exits { get { return exits; } set { exits = value; } }
 
         /// <summary>
         /// Consumo en KW/h

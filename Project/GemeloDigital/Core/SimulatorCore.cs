@@ -48,7 +48,8 @@ namespace GemeloDigital
 
             state = SimulatorState.Stopped;
 
-            storage = new DummyStorage();
+            //storage = new DummyStorage();
+            storage = new MemoryStorage();
 
             storage.Initialize();
         }
@@ -162,7 +163,6 @@ namespace GemeloDigital
 
             return p;
         }
-
 
         /// <summary>
         /// Crea un camino entre los dos puntos, que deben ser diferentes
@@ -389,5 +389,52 @@ namespace GemeloDigital
             storage.DeleteScene(storageId);
         }
 
+        internal static SimulatedObject? FindObjectById(string id)
+        {
+            SimulatedObject? result = null;
+            int i = 0;
+
+            while(result == null && i < simulatedObjects.Count)
+            {
+                SimulatedObject o = simulatedObjects[i];
+                if(o.Id == id) { result = o; } 
+                else { i++; }
+            }
+
+            return result;
+        }
+
+        internal static Point CreatePointWithId(string id)
+        {
+            Point p = CreatePoint();
+            p.Id = id;
+
+            return p;
+        }
+
+        internal static Path CreatePathWithId(string id, Point point1, Point point2)
+        {
+            Path p = CreatePath(point1, point2);
+            p.Id = id;
+
+            return p;
+        }
+
+        internal static Facility CreateFacilityWithId(string id, Point entrance, Point exit)
+        {
+            Facility f = CreateFacility(entrance, exit);
+            f.Id = id;
+
+            return f;
+        }
+
+        internal static Person CreatePersonWithId(string id)
+        {
+            Person p = CreatePerson();
+            p.Id = id;
+
+            return p;
+        }
+        
     }
 }
