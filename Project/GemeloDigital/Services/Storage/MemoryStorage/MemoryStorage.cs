@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GemeloDigital
+namespace GemeloDigital.Services.MemoryStorage
 {
     internal class MemoryStorage : Storage
     {
@@ -42,7 +42,7 @@ namespace GemeloDigital
             Stream stream = scenes[storageId];
 
             StreamSerializer serializer;
-            serializer = new StreamSerializer(stream, sizeof(int));
+            serializer = new StreamSerializer(stream, Constants.serializerBufferInitialSize);
 
             int pointsCount = serializer.GetInt();
             for(int i = 0; i < pointsCount; i++)
@@ -164,7 +164,7 @@ namespace GemeloDigital
             stream.SetLength(0);
 
             StreamSerializer serializer;
-            serializer = new StreamSerializer(stream, sizeof(int));
+            serializer = new StreamSerializer(stream, Constants.serializerBufferInitialSize);
 
 
             List<SimulatedObject> points = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
