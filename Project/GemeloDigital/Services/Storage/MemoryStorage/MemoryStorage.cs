@@ -74,7 +74,7 @@ namespace GemeloDigital
                 Debug.Assert(o1 != null);
                 Point p1 = SimulatorCore.AsPoint(o1);
 
-                SimulatedObject? o2 = SimulatorCore.FindObjectById(p1Id);
+                SimulatedObject? o2 = SimulatorCore.FindObjectById(p2Id);
                 Debug.Assert(o2 != null);
                 Point p2 = SimulatorCore.AsPoint(o2);
 
