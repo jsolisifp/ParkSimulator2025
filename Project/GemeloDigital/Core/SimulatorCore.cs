@@ -48,8 +48,7 @@ namespace GemeloDigital
 
             state = SimulatorState.Stopped;
 
-            //storage = new DummyStorage();
-            storage = new MemoryStorage();
+            storage = new DummyStorage();
 
             storage.Initialize();
         }
