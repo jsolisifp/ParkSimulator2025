@@ -76,7 +76,7 @@ namespace GemeloDigital
 
                 SimulatedObject? o2 = SimulatorCore.FindObjectById(p1Id);
                 Debug.Assert(o2 != null);
-                Point p2 = SimulatorCore.AsPoint(o1);
+                Point p2 = SimulatorCore.AsPoint(o2);
 
                 Path p = SimulatorCore.CreatePathWithId(id, p1, p2);
                 p.Name = name;
