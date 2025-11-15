@@ -161,6 +161,7 @@ namespace GemeloDigital
             if(!scenes.ContainsKey(storageId)) { scenes.Add(storageId, new()); }
 
             Stream stream = scenes[storageId];
+            stream.SetLength(0);
 
             StreamSerializer serializer;
             serializer = new StreamSerializer(stream, sizeof(int));

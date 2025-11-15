@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -76,7 +77,8 @@ namespace GemeloDigital
         {
             int size = sizeof(int);
             EnsureCapacity(size);
-            stream.Read(buffer, 0, size);
+            int readed = stream.Read(buffer, 0, size);
+            Debug.Assert(readed == size);
 
             return BitConverter.ToInt32(buffer, 0);
         }
@@ -85,7 +87,8 @@ namespace GemeloDigital
         {
             int size = sizeof(float);
             EnsureCapacity(size);
-            stream.Read(buffer, 0, size);
+            int readed = stream.Read(buffer, 0, size);
+            Debug.Assert(readed == size);
 
             return BitConverter.ToSingle(buffer, 0);
         }
@@ -95,7 +98,8 @@ namespace GemeloDigital
             int byteCount = GetInt();
             
             EnsureCapacity(byteCount);
-            stream.Read(buffer, 0, byteCount);
+            int readed = stream.Read(buffer, 0, byteCount);
+            Debug.Assert(readed == byteCount);
 
             return Encoding.UTF8.GetString(buffer, 0, byteCount);
         }
