@@ -51,14 +51,5 @@ namespace GemeloDigital
             return 0;
         }
 
-        internal virtual void StartKPIRecording(string name)
-        {
-            // Nothing to do
-        }
-
-        internal virtual void StopKPIRecording(string name)
-        {
-            // Nothing to do
-        }
     }
 }

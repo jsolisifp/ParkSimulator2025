@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Text;
 
 
 namespace GemeloDigital
@@ -14,6 +15,8 @@ namespace GemeloDigital
 
             int option = -1;
             int menu = 0;
+
+            StringBuilder builder = new StringBuilder();
 
             SimulatedObject selectedObject = null;
             List<string> monitorizedGeneralKPIs = new List<string>();
@@ -58,27 +61,101 @@ namespace GemeloDigital
                 else { PrintObject(selectedObject); }
 
                 Console.WriteLine();
-                Console.WriteLine("-------  KPIS   --------");
+                Console.WriteLine("-------  Monitor de KPIS  --------");
                 Console.WriteLine();
+
                 if(monitorizedGeneralKPIs.Count == 0 && monitorizedObjectKPIs.Count == 0)
                 {
                     Console.WriteLine(tab + tab + "No se está monitorizando ningún KPI");
+                    Console.WriteLine();
                 }
                 else
                 {
+                    bool isRunning = (SimulatorCore.State == SimulatorState.Running);
+
+                    if(!isRunning)
+                    {
+                        Console.WriteLine(tab + tab + "(!) Los valores sólo están disponibles");
+                        Console.WriteLine(tab + tab + "    cuando la simulación está en marcha");
+                        Console.WriteLine();
+                    }
+
                     for(int i = 0; i < monitorizedGeneralKPIs.Count; i++)
                     {
                         string kpi = monitorizedGeneralKPIs[i];
-                        Console.WriteLine(tab + tab + kpi + ": " + SimulatorCore.GetGeneralKPI(kpi));
+                        string currentValue = "" + (isRunning ? SimulatorCore.GetGeneralKPI(kpi) : "[n/d]");
+
+                        Console.WriteLine(tab + tab + kpi + ": " + currentValue);
                     }                
                     Console.WriteLine();
                     for(int i = 0; i < monitorizedObjectKPIs.Count; i++)
                     {
                         string kpi = monitorizedObjectKPIs[i];
                         SimulatedObject obj = monitorizedObjects[i];
-                        Console.WriteLine(tab + tab + obj.Name + ": "+ kpi + ": " + SimulatorCore.GetObjectKPI(obj, kpi));
+
+                        string currentValue = "" + (isRunning ? SimulatorCore.GetObjectKPI(obj, kpi) : "[n/d]");
+
+                        Console.WriteLine(tab + tab + obj.Name + ": "+ kpi + ": " + currentValue);
                     }                
                 }
+
+                Console.WriteLine();
+
+                Console.WriteLine("-------  Grabaciones de KPIS  --------");
+                Console.WriteLine();
+                
+                KPIRecordingInfo recordingInfo = SimulatorCore.GetKPIRecordingInfo();
+
+                if(recordingInfo.Id == "")
+                {
+                    Console.WriteLine(tab + tab + "No existe ninguna grabación de KPIs");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine(tab + tab + "Id: " + recordingInfo.Id);
+                    Console.WriteLine(tab + tab + "Fecha: " + recordingInfo.CreationDate);
+                    Console.WriteLine(tab + tab + "Duración(s): " + recordingInfo.Duration);
+                    Console.WriteLine();
+
+                    float from = recordingInfo.Duration - 5 >= 0 ? recordingInfo.Duration - 5: 0;
+                    float to = recordingInfo.Duration;
+
+                    foreach(string kpi in recordingInfo.GeneralKpis)
+                    {
+                        List<KPIRecord> records = SimulatorCore.GetGeneralKPIRecords(kpi, from, to);
+
+                        string values;
+                        if(records.Count == 0) { values = "[n/d]"; }
+                        else
+                        {   builder.Clear();
+                            foreach(KPIRecord r in records)
+                            { builder.Append(String.Format("{0:0.00} ", r.Value)); }
+                            values = builder.ToString();
+                        }
+
+                        Console.WriteLine(kpi + ": " + values);
+                    }
+
+                    foreach(ObjectKPIInfo kpiInfo in recordingInfo.ObjectKpis)
+                    {
+                        List<KPIRecord> records = SimulatorCore.GetObjectKPIRecords(kpiInfo.ObjectId, kpiInfo.Kpi, from, to);
+
+                        string values;
+                        if(records.Count == 0) { values = "[n/d]"; }
+                        else
+                        {   builder.Clear();
+                            foreach(KPIRecord r in records)
+                            { builder.Append(String.Format("{0:0.00} ", r.Value)); }
+                            values = builder.ToString();
+                        }
+
+                        Console.WriteLine(kpiInfo.ObjectName + ": " + kpiInfo.Kpi + ": " + values);
+                    }
+                }
+                
+
+
                 Console.WriteLine();
                 if(menu == 0)
                 {
@@ -386,6 +463,21 @@ namespace GemeloDigital
                         }
                         else
                         {
+                            SimulatorCore.UntrackAllKPIs();
+
+                            foreach(string kpi in monitorizedGeneralKPIs)
+                            {
+                                SimulatorCore.TrackGeneralKPI(kpi);
+                            }
+
+                            for(int i = 0; i < monitorizedObjectKPIs.Count; i++)
+                            {
+                                string kpi = monitorizedObjectKPIs[i];
+                                SimulatedObject simObj = monitorizedObjects[i];
+                                SimulatorCore.TrackObjectKPI(simObj, kpi);
+                            }
+
+
                             SimulatorCore.Start();
                         }
                     }

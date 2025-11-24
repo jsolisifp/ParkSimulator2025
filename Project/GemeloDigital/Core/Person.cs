@@ -57,15 +57,5 @@ namespace GemeloDigital
         {
         }
 
-        internal override void StartKPIRecording(string name)
-        {
-            base.StartKPIRecording(name);
-        }
-
-        internal override void StopKPIRecording(string name)
-        {
-            base.StopKPIRecording(name);
-
-        }
     }
 }

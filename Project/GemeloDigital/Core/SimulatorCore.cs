@@ -37,6 +37,8 @@ namespace GemeloDigital
 
         static Storage storage;
 
+        static RealtimeStorage realtimeStorage;
+
         /// <summary>
         /// Inicia el simulador. Debe llamarse
         /// una vez antes de utilizar cualquier otra
@@ -51,6 +53,10 @@ namespace GemeloDigital
             storage = new DummyStorage();
 
             storage.Initialize();
+
+            realtimeStorage = new DummyRealtimeStorage();
+
+            realtimeStorage.Initialize();
         }
 
         /// <summary>
@@ -65,6 +71,8 @@ namespace GemeloDigital
             {
                 simulatedObjects[i].Start();
             }
+
+            realtimeStorage.Start();
 
             state = SimulatorState.Running;
         }
@@ -81,6 +89,8 @@ namespace GemeloDigital
                 simulatedObjects[i].Step();
             }
 
+            realtimeStorage.Step();
+
             steps++;
         }
 
@@ -90,10 +100,13 @@ namespace GemeloDigital
         /// </summary>
         public static void Stop()
         {
+            realtimeStorage.Stop();
+
             for (int i = 0; i < simulatedObjects.Count; i++)
             {
                 simulatedObjects[i].Stop();
             }
+
 
             state = SimulatorState.Stopped;
         }
@@ -106,6 +119,7 @@ namespace GemeloDigital
         public static void Finish()
         {
             storage.Finish();
+            realtimeStorage.Finish();
 
             simulatedObjects = null;
 
@@ -274,7 +288,8 @@ namespace GemeloDigital
         }
 
         /// <summary>
-        /// Devuelve el valor de un KPI general
+        /// Devuelve el valor de un KPI general.
+        /// Sólo puede llamarse con la simulación corriendo.
         /// </summary>
         /// <param name="kpi">Nombre del KPI</param>
         /// <returns>Valor del KPI</returns>
@@ -292,6 +307,7 @@ namespace GemeloDigital
 
         /// <summary>
         /// Devuelve el valor de un KPI de un objeto
+        /// Sólo puede llamarse con la simulación corriendo.
         /// </summary>
         /// <param name="obj">El objeto</param>
         /// <param name="kpi">Nombre del KPI</param>
@@ -302,41 +318,128 @@ namespace GemeloDigital
         }
 
         /// <summary>
-        /// Inicia la grabación de un KPI general
+        /// Habilita la grabación de un KPI general
+        /// Sólo puede llamarse con la simulación parada.
         /// </summary>
         /// <param name="kpi"></param>
-        public static void StartGeneralKPIRecording(string kpi)
+        public static void TrackGeneralKPI(string kpi)
         {
-            //...
+            realtimeStorage.TrackGeneralKPI(kpi);
         }
 
         /// <summary>
-        /// Detiene la grabación de un KPI general
+        /// Deshabilita la grabación de un KPI general
+        /// Sólo puede llamarse con la simulación parada.
         /// </summary>
         /// <param name="kpi"></param>
-        public static void StopGeneralKPIRecording(string kpi)
+        public static void UntrackGeneralKPI(string kpi)
         {
-            //...
+            realtimeStorage.UntrackGeneralKPI(kpi);
         }
 
         /// <summary>
-        /// Inicia la grabación de un KPI de objeto.
+        /// Habilita la grabación de un KPI de objeto.
+        /// Sólo puede llamarse con la simulación parada.
         /// </summary>
         /// <param name="simObj">El objeto</param>
         /// <param name="kpi">El KPI</param>
-        public static void StartObjectKPIRecording(SimulatedObject simObj, string kpi)
+        public static void TrackObjectKPI(SimulatedObject simObj, string kpi)
         {
-            simObj.StartKPIRecording(kpi);
+            realtimeStorage.TrackObjectKPI(simObj.Id, kpi);
         }
 
         /// <summary>
-        /// Detiene la grabación de un KPI de objeto.
+        /// Deshabilita la grabación de un KPI de objeto.
+        /// Sólo puede llamarse con la simulación parada.
         /// </summary>
         /// <param name="simObj"></param>
         /// <param name="kpi"></param>
-        public static void StopObjectKPIRecording(SimulatedObject simObj, string kpi)
+        public static void UntrackObjectKPI(SimulatedObject simObj, string kpi)
         {
-            simObj.StopKPIRecording(kpi);
+            realtimeStorage.UntrackObjectKPI(simObj.Id, kpi);
+        }
+
+        /// <summary>
+        /// Deshabilita todas la grabaciones de KPIs 
+        /// Sólo puede llamarse con la simulación parada.
+        /// </summary>
+        public static void UntrackAllKPIs()
+        {
+            realtimeStorage.DisableAllKPIRecordings();
+        }
+
+        /// <summary>
+        /// Devuelve una lista de todos los registros grabados para
+        /// un kpi general en el intervalo de tiempo especificado.
+        /// </summary>
+        /// <param name="kpi"></param>
+        /// <param name="fromTime"></param>
+        /// <param name="toTime">Si es -1 se devolverán todos los registros disponibles</param>
+        /// <returns>Los registros o una lista vacía si no existe ninguno</returns>
+        public static List<KPIRecord> GetGeneralKPIRecords(string kpi, float fromTime, float toTime)
+        {
+            return realtimeStorage.GetGeneralKPIRecords(kpi, fromTime, toTime);
+        }
+
+        /// <summary>
+        /// Devuelve una lista de todos los registros para
+        /// un kpi de objeto en el intervalo de tiempo especificado
+        /// </summary>
+        /// <param name="simObjId"></param>
+        /// <param name="kpi"></param>
+        /// <param name="fromTime"></param>
+        /// <param name="toTime"></param>
+        /// <returns></returns>
+        public static List<KPIRecord> GetObjectKPIRecords(string simObjId, string kpi, float fromTime, float toTime)
+        {
+            return realtimeStorage.GetObjectKPIRecords(simObjId, kpi, fromTime, toTime);
+        }
+
+        /// <summary>
+        /// Permite consultar información acerca de última grabación
+        /// </summary>
+        /// <returns></returns>
+        public static KPIRecordingInfo GetKPIRecordingInfo()
+        {
+            return realtimeStorage.GetKPIRecordingInfo();
+        }
+
+        /// <summary>
+        /// Sustituye los registros de KPIs actuales por los de la grabación especificada
+        /// </summary>
+        /// <param name="recordingId"></param>
+        public static void LoadKPIRecording(string recordingId)
+        {
+            realtimeStorage.LoadKPIRecording(recordingId);
+        }
+
+        /// <summary>
+        /// Lista las grabaciones de KPIs disponibles para la escena actual
+        /// </summary>
+        /// <returns>Los ids de las grabaciones</returns>
+        public static List<string> ListKPIRecordings()
+        {
+            return realtimeStorage.ListKPIRecordings();
+        }
+
+        /// <summary>
+        /// Devuelve una estructura con información sobre la grabación de kpis
+        /// especificada.
+        /// </summary>
+        /// <param name="recordingId"></param>
+        /// <returns></returns>
+        internal KPIRecordingInfo GetKPIRecordingInfo(string recordingId)
+        {
+            return realtimeStorage.GetKPIRecordingInfo(recordingId);
+        }
+
+        /// <summary>
+        /// Elimina la grabación de kpis especificada
+        /// </summary>
+        /// <param name="recordingId"></param>
+        internal void DeleteKPIRecording(string recordingId)
+        {
+            realtimeStorage.DeleteKPIRecording(recordingId);
         }
 
         /// <summary>
@@ -347,6 +450,8 @@ namespace GemeloDigital
         public static void NewScene()
         {
             simulatedObjects.Clear();
+
+            realtimeStorage.NewScene();
         }
 
         /// <summary>
@@ -359,6 +464,7 @@ namespace GemeloDigital
             simulatedObjects.Clear();
 
             storage.LoadScene(storageId);
+            realtimeStorage.LoadScene(storageId);
         }
 
         /// <summary>
@@ -369,6 +475,7 @@ namespace GemeloDigital
         public static void SaveScene(string storageId)
         {
             storage.SaveScene(storageId);
+            realtimeStorage.SaveScene(storageId);
         }
 
         /// <summary>
@@ -386,6 +493,7 @@ namespace GemeloDigital
         public static void DeleteScene(string storageId)
         {
             storage.DeleteScene(storageId);
+            realtimeStorage.DeleteScene(storageId);
         }
 
         internal static SimulatedObject? FindObjectById(string id)
