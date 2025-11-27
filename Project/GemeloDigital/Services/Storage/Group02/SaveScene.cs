@@ -10,8 +10,21 @@ namespace GemeloDigital
     {
         internal override void SaveScene(string storageId)
         {
-            //Console.WriteLine("DummyStorage: Save simulation " + storageId);
-            lista_storages.Add(storageId);
+            FileStream ficha = new FileStream(storageId, FileMode.Create,FileAccess.Write);
+            //METERLE TODO
+
+            byte[] bytes;
+            string linea = null;
+            //punto
+            //meter "punto"
+            linea = "punto";
+            BitConverter.GetBytes();
+
+
+
+            ficha.Close();
+            
+            lista_storages.Add(storageId);//meter ficha a la lista
         }
     }
 }
