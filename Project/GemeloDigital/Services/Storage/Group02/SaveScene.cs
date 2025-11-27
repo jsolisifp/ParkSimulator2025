@@ -10,8 +10,9 @@ namespace GemeloDigital
     {
         internal override void SaveScene(string storageId)
         {
-            //Console.WriteLine("DummyStorage: Save simulation " + storageId);
-            lista_storages.Add(storageId);
+            Console.WriteLine("DummyStorage: Save simulation " + storageId);
+            Console.ReadLine();
+            //lista_storages.Add(storageId);
         }
     }
 }
