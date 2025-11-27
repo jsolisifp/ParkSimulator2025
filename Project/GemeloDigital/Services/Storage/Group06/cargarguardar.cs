@@ -49,6 +49,7 @@ namespace GemeloDigital
         void SavePerson(Person p, FileStream stream)
         {
 
+            stream  = new FileStream ("guardado" , FileMode.Open ,FileAccess.Read);
         }
         
         
