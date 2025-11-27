@@ -10,9 +10,33 @@ namespace GemeloDigital
     {
         internal override void SaveScene(string storageId)
         {
-            Console.WriteLine("DummyStorage: Save simulation " + storageId);
-            Console.ReadLine();
-            //lista_storages.Add(storageId);
+            if (!File.Exists("saves/" + storageId))
+            {
+                Console.WriteLine($"La escena {storageId} no existe");
+                Console.ReadLine();
+                return;
+            }
+
+            FileStream ficha = new FileStream("saves/"+storageId, FileMode.Create,FileAccess.Write);
+            //METERLE cosas
+            //punto
+            
+            List<SimulatedObject> points = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
+            foreach (SimulatedObject point in points)
+            {
+                Point p = SimulatorCore.AsPoint(point);
+                //p.Name
+                //    p.Position.x
+                //SimulatorCore.FindObjectsOfType
+                //SimulatorCore.GetObjects()simulatedObjects.Add(p); //<-- No hay permisos
+            }
+
+
+
+
+            ficha.Close();
+            
+            lista_storages.Add(storageId);//meter ficha a la lista
         }
     }
 }

@@ -32,7 +32,7 @@ namespace GemeloDigital
                 // Point tiene posicion X posicion Y y posicion Z, lee 3 floats // Guardar las cosas en la lista de puntos
 
                 // Crear punto 
-                
+                SimulatorCore.CreatePoint();
                 // add.Lista(punto) // simulatedObjects.add(point)
 
                
