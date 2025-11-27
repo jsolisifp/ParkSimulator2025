@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GemeloDigital
 {
-    internal class DummyStorage : Storage
+    internal class cargarguardar : Storage
     {
         List<string> list = new List<string>();
 
