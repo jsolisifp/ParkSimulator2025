@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GemeloDigital
 {
-    internal class cargarguardar : Storage
+    internal class Cargarguardar : Storage
     {
         List<string> list = new List<string>();
 
@@ -23,25 +23,35 @@ namespace GemeloDigital
 
         internal override void Finish()
         {
-            //Console.WriteLine("DummyStorage: Finish");
+            Console.WriteLine("DummyStorage: Finish");
         }
         
         internal override void LoadScene(string storageId)
         {
-            //Console.WriteLine("DummyStorage: Load simulation" + storageId);
+            Console.WriteLine("DummyStorage: Load simulation" + storageId);
         }
 
         internal override void SaveScene(string storageId)
         {
-            //Console.WriteLine("DummyStorage: Save simulation " + storageId);
+            Console.WriteLine("Grupo 6: Save simulation " + storageId);
+
+            //Console.ReadLine();
+
+
             list.Add(storageId);
         }
 
         internal override void DeleteScene(string storageId)
         {
-            //Console.WriteLine("Deleting simulation " + storageId);
+            Console.WriteLine("Deleting simulation " + storageId);
             list.Remove(storageId);
         }
+        void SavePerson(Person p, FileStream stream)
+        {
+
+        }
+        
+        
 
         internal override List<string> ListScenes()
         {
