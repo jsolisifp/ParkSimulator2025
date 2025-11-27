@@ -33,6 +33,14 @@ namespace GemeloDigital
 
         internal override void SaveScene(string storageId)
         {
+
+            List<SimulatedObject> points = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
+
+            foreach (SimulatedObject point in points)
+            {
+                Point p = SimulatorCore.AsPoint(point);
+                
+            }
             //Console.WriteLine("DummyStorage: Save simulation " + storageId);
             list.Add(storageId);
         }
