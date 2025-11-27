@@ -10,7 +10,7 @@ namespace GemeloDigital
     {
         //variables generales 
         List<string> lista_storages = new List<string>();
-
-
+        byte[] bytes=null;
+        int marcafin=0;
     }
 }
