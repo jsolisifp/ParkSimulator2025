@@ -40,16 +40,23 @@ namespace GemeloDigital
             StreamWriter writer = new StreamWriter(fileOLD, Encoding.UTF8);
             DateTime thisDay = DateTime.Now; // <-- Sacamos la fecha.
 
-            Console.WriteLine("******** NOMBRE DE ESCENA ******** ");
-            Console.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
-            Console.WriteLine("Fecha: " + thisDay);
-            Console.WriteLine(" ");
+            SimulatorCore.FindObjectsOfType() // <-- para sacar la lista de los objetos por tipos.
 
-
-        
-
-
-
+            writer.WriteLine("******** NOMBRE DE ESCENA ******** ");
+            writer.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
+            writer.WriteLine("Fecha: " + thisDay);
+            writer.WriteLine("\n *** INFO ***");
+            writer.WriteLine("\n Personas: ");
+            writer.WriteLine("Instalción " +  IsAtFacility);
+            writer.WriteLine("Camino: " + IsAtPth);
+            writer.WriteLine("Edad: " + Age);
+            writer.WriteLine("Altura: " + Height);
+            writer.WriteLine("Peso: " + Weight);
+            writer.WriteLine("Dinero: " + Money);
+            writer.WriteLine("\n Path: ");
+            writer.WriteLine(" Punto 1: " + Point1);
+            writer.WriteLine(" Punto 2: " + Point2);
+            writer.WriteLine("\n *** FIN *** ");
 
         }
 
