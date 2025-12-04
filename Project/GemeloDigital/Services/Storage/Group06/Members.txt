@@ -1,6 +1,37 @@
-Jordi
-Miquel
-Chema
-Jofre
-Soc Al jordi
-Soc Al jordi
+¿Qué hay que guardar?
+
+Facility:
+- Entrances
+- Exits
+- PowerConsumed
+
+Path:
+- Point 1
+- Point 2
+- CapacityPersons
+- Distance
+
+Person:
+- IsAtFacility
+- IsAtPath
+- Age
+- Height
+- Weight
+- Money
+
+PersonGenerator:
+- Generate person
+
+Point: 
+- Position
+
+SimulatedObject:
+- Id
+- Name
+- Type
+
+SimulatorCore:
+- Version
+- State
+- Steps
+- Time
