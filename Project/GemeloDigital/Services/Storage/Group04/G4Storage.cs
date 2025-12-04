@@ -10,18 +10,11 @@ namespace GemeloDigital
     internal class G4Storage : Storage
     {
         List<string> list = new List<string>();
-
-        //FileStream fileOLD = new FileStream("fileOLD.txt", FileMode.Open, FileAccess.Read);
-        //StreamReader reader = new StreamReader(fileOLD, Encoding.UTF8);
-        //// Creamos el fichero donde lo escribira
-        //FileStream fileNew = new FileStream("fileNEW.txt", FileMode.Create, FileAccess.Write);
-        //StreamWriter writer = new StreamWriter(fileNew, Encoding.UTF8);
+      
 
         public string nombreEscena;
         public string horaActual;
-        
 
-    
         internal override void Initialize()
         {
            Console.WriteLine("G4Storage: Initializing");
@@ -29,27 +22,31 @@ namespace GemeloDigital
 
         internal override void Finish()
         {
-            //Console.WriteLine("DummyStorage: Finish");
+            Console.WriteLine("G4Storage: Finish");
         }
 
         internal override void LoadScene(string storageId)
         {
-            //Console.WriteLine("DummyStorage: Load simulation" + storageId);
+            Console.WriteLine("G4Storge: Load simulation" + storageId);
         }
 
         internal override void SaveScene(string storageId)
         {
-            //Console.WriteLine("DummyStorage: Save simulation " + storageId);
+            Console.WriteLine("G4Storge: Save simulation " + storageId);
 
             nombreEscena = storageId;
 
             FileStream fileOLD = new FileStream(nombreEscena, FileMode.Create, FileAccess.Write);
             StreamWriter writer = new StreamWriter(fileOLD, Encoding.UTF8);
+            DateTime thisDay = DateTime.Now; // <-- Sacamos la fecha.
 
-            Console.WriteLine("Iniciar guardado");
+            Console.WriteLine("******** NOMBRE DE ESCENA ******** ");
+            Console.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
+            Console.WriteLine("Fecha: " + thisDay);
+            Console.WriteLine(" ");
 
-            writer.WriteLine("Nombre Escena: " + nombreEscena);
-            writer.WriteLine("Fecha: " + ); 
+
+        
 
 
 
