@@ -1,37 +1,37 @@
 ¿Qué hay que guardar?
 
 Facility:
-- Entrances
-- Exits
-- PowerConsumed
+-- Entrances
+-- Exits
+-- Name
+-- PowerConsumed
+-- Id 
+-- Type 
 
 Path:
-- Point 1
-- Point 2
-- CapacityPersons
-- Distance
+-- Point 1
+-- Point 2
+-- Name
+-- CapacityPersons 
+-- Distance 
+-- Type
 
 Person:
-- IsAtFacility
-- IsAtPath
-- Age
-- Height
-- Weight
-- Money
-
-PersonGenerator:
-- Generate person
+-- Age
+-- Height
+-- Weight
+-- Money
+-- IsAtFacility
+-- IsAtPath 
+-- Id 
+-- Type 
+-- Name
 
 Point: 
-- Position
+-- Name
+-- Type
+-- X position
+-- Y position
+-- Z position
 
-SimulatedObject:
-- Id
-- Name
-- Type
 
-SimulatorCore:
-- Version
-- State
-- Steps
-- Time
