@@ -10,7 +10,7 @@ namespace GemeloDigital
     {
         internal override void Finish()
         {
-            //Console.WriteLine("DummyStorage: Finish");
+            Console.WriteLine("DummyStorage: Finish");
         }
     }
 }

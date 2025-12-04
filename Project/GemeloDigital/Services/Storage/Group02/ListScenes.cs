@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace GemeloDigital
 {
@@ -10,7 +11,21 @@ namespace GemeloDigital
     {
         internal override List<string> ListScenes()
         {
-            return lista_storages; lista_storages = new List<string>();
+            // muestro el fichero donde estan todas las .sb por ejemplo saves
+            // en mi lista ecenas tinee que devolver una LISTScenes()={ "A.sb, "B.sb" , "c.sb"}
+            // cundo ya tenemos varias esenas creandas se creara varios ficheros y aqui deve mostrar cuantas hay mas no mostrar lo de 
+            //dentro ya que si quiero ver lo que existe dentro del fichero de texto tendre que ir aLoadScenes no aqui 
+
+            
+            string carpetaEscenas = "saves";
+            
+            if (!Directory.Exists(carpetaEscenas))
+                return new List<string>();
+            
+            string[] archivos = Directory.GetFiles(carpetaEscenas, "*.sb");
+            
+            List<string> nombres = archivos.Select(f => System.IO.Path.GetFileName(f)).ToList();
+            return nombres;
         }
     }
 }

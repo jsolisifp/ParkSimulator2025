@@ -10,7 +10,8 @@ namespace GemeloDigital
     {
         internal override void DeleteScene(string storageId)
         {
-            //Console.WriteLine("Deleting simulation " + storageId);
+
+            Console.WriteLine("Deleting simulation " + storageId);
             lista_storages.Remove(storageId);
         }
     }

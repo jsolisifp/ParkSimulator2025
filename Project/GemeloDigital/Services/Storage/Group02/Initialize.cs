@@ -10,17 +10,16 @@ namespace GemeloDigital
     {
         internal override void Initialize()
         {
-            Console.WriteLine("DummyStorage: Initializing");
+            Console.WriteLine("Storage02: Initializing");
             lista_storages = new List<string>();
 
+            string carpeta = "saves";
 
+            if (!Directory.Exists(carpeta))
+            {
+                Directory.CreateDirectory(carpeta);
+            }
 
-
-
-
-            //lista_storages.Add("Guardado1.dat");
-            //lista_storages.Add("Guardado2.dat");
-            //lista_storages.Add("Guardado3.dat");
         }
 
     }
