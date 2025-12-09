@@ -30,6 +30,248 @@ namespace GemeloDigital
         internal override void LoadScene(string storageId)
         {
             //Console.WriteLine("BinaryFileStorage: Load simulation" + storageId);
+
+            // Cargar puntos
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
+
+            // variable que nos permite cargar el archivo exacto asociado al nombre de la escena
+            string scenePointsName = storageId + "points.dat";
+            FileStream streamPoints = new FileStream(scenePointsName, FileMode.Open, FileAccess.Read);
+
+            // Sabemos que la lista de puntos está guardada en un orden completo, así que sacamos los datos
+            // Espacio en bytes del Id
+            // Id (str)
+            // Tamaño de bytes del nombre en UTF8
+            // Nombre en UTF8
+            // coordenadas en float (orden X,Y,Z)
+            int infoLeft = streamPoints.Read(bytesInt);
+
+            while (infoLeft > 0)
+            {
+                int idSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[idSize];
+                streamPoints.Read(bytesStr);
+                string pointID = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPoints.Read(bytesInt);
+                int nameSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[nameSize];
+                streamPoints.Read(bytesStr);
+                string pointName = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPoints.Read(bytesFloat);
+                float x = BitConverter.ToSingle(bytesFloat);
+                
+                streamPoints.Read(bytesFloat);
+                float y = BitConverter.ToSingle(bytesFloat);
+                
+                streamPoints.Read(bytesFloat);
+                float z = BitConverter.ToSingle(bytesFloat);
+
+                // crear punto!!!
+
+
+                infoLeft = streamPoints.Read(bytesInt);
+            }
+
+            streamPoints.Close();
+
+            // Cargar facilities
+            string sceneFacilitiesName = storageId + "facilities.dat";
+            FileStream streamFacilities = new FileStream(sceneFacilitiesName, FileMode.Open, FileAccess.Read);
+
+            // Espacio en bytes del Id
+            // Id (str)
+            // Tamaño de bytes del nombre en UTF8
+            // Nombre en UTF8
+            // Float power consumed total
+            // Cantidad de puntos en la lista de entrada (int)--> Entrances.Count
+            // cada una de esas entradas --> int ID
+            // Cantidad de puntos en la lista de salida (int)--> Exits.Count
+            // cada una de esas entradas --> int ID
+            infoLeft = streamFacilities.Read(bytesInt);
+
+            while (infoLeft > 0)
+            {
+                int idSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[idSize];
+                streamFacilities.Read(bytesStr);
+                string facilityID = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamFacilities.Read(bytesInt);
+                int nameSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[nameSize];
+                streamFacilities.Read(bytesStr);
+                string facilityName = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamFacilities.Read(bytesFloat);
+                float powerConsumed = BitConverter.ToSingle(bytesFloat);
+
+                streamFacilities.Read(bytesInt);
+                int numberOfEntrances = BitConverter.ToInt32(bytesInt);
+                List<string> entrances = new List<string>();
+
+                for (int i = 0; i < numberOfEntrances; i++)
+                {
+                    streamFacilities.Read(bytesInt);
+                    int entranceIdSize = BitConverter.ToInt32(bytesInt);
+
+                    bytesStr = new byte[entranceIdSize];
+                    streamFacilities.Read(bytesStr);
+
+                    string entranceId = Encoding.UTF8.GetString(bytesStr);
+                    entrances.Add(entranceId);
+                }
+
+                streamFacilities.Read(bytesInt);
+                int numberOfExits = BitConverter.ToInt32(bytesInt);
+                List<string> exits = new List<string>();
+                    
+                for (int i = 0; i < numberOfExits; i++)
+                {
+                    streamFacilities.Read(bytesInt);
+                    int exitIdSize = BitConverter.ToInt32(bytesInt);
+
+                    bytesStr = new byte[exitIdSize];
+                    streamFacilities.Read(bytesStr);
+
+                    string exitId = Encoding.UTF8.GetString(bytesStr);
+                    exits.Add(exitId);
+                }
+
+                // crear facility!!!
+
+
+                infoLeft = streamFacilities.Read(bytesInt);
+            }
+
+            streamFacilities.Close();
+
+
+            // Cargar paths
+            string scenePathsName = storageId + "paths.dat";
+            FileStream streamPaths = new FileStream(scenePathsName, FileMode.Open, FileAccess.Read);
+
+            // Espacio en bytes del Id
+            // Id (str)
+            // Tamaño de bytes del nombre en UTF8
+            // Nombre en UTF8
+            // capacity persons (int)
+            // espacio en bytes del Id del punto1
+            // id del punto1
+            // espacio en bytes del Id del punto2
+            // id del punto2
+            infoLeft = streamPaths.Read(bytesInt);
+
+            while (infoLeft > 0)
+            {
+                int idSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[idSize];
+                streamPaths.Read(bytesStr);
+                string pathID = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPaths.Read(bytesInt);
+                int nameSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[nameSize];
+                streamPaths.Read(bytesStr);
+                string pathName = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPaths.Read(bytesInt);
+                int capacityPersons = BitConverter.ToInt32(bytesInt);
+
+                streamPaths.Read(bytesInt);
+                int point1Size = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[point1Size];
+                streamPaths.Read(bytesStr);
+                string pathPoint1Id = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPaths.Read(bytesInt);
+                int point2Size = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[point2Size];
+                streamPaths.Read(bytesStr);
+                string pathPoint2Id = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+
+                // crear punto!!!
+
+
+                infoLeft = streamPaths.Read(bytesInt);
+            }
+
+            streamPaths.Close();
+
+
+            // Cargar persons
+            string scenePersonsName = storageId + "persons.dat";
+            FileStream streamPersons = new FileStream(scenePersonsName, FileMode.Open, FileAccess.Read);
+
+            // Espacio en bytes del Id
+            // Id (str)
+            // Tamaño de bytes del nombre en UTF8
+            // Nombre en UTF8
+            // age (int)
+            // height (float)
+            // weight (float)
+            // money (float)
+            // is at facility (? si es null ponemos LA PALABRA "null", si no es null id de la facility)
+            // is at path
+            infoLeft = streamPersons.Read(bytesInt);
+
+            while (infoLeft > 0)
+            {
+                int idSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[idSize];
+                streamPersons.Read(bytesStr);
+                string personID = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPersons.Read(bytesInt);
+                int nameSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[nameSize];
+                streamPersons.Read(bytesStr);
+                string personName = System.Text.Encoding.UTF8.GetString(bytesStr);
+
+                streamPersons.Read(bytesInt);
+                int personAge = BitConverter.ToInt32(bytesInt);
+
+                streamPersons.Read(bytesFloat);
+                float personHeight = BitConverter.ToSingle(bytesFloat);
+
+                streamPersons.Read(bytesFloat);
+                float personWeight = BitConverter.ToSingle(bytesFloat);
+
+                streamPersons.Read(bytesFloat);
+                float personMoney = BitConverter.ToSingle(bytesFloat);
+
+                streamPersons.Read(bytesInt);
+                int facilityNameSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[facilityNameSize];
+                streamPersons.Read(bytesStr);
+                string facilityName = System.Text.Encoding.UTF8.GetString(bytesStr);
+                if (facilityName == "null")
+                {
+                    facilityName = null;
+                }
+
+                streamPersons.Read(bytesInt);
+                int pathNameSize = BitConverter.ToInt32(bytesInt);
+                bytesStr = new byte[pathNameSize];
+                streamPersons.Read(bytesStr);
+                string pathName = System.Text.Encoding.UTF8.GetString(bytesStr);
+                if (pathName == "null")
+                {
+                    pathName = null;
+                }
+
+                // crear punto!!!
+
+
+                infoLeft = streamPersons.Read(bytesInt);
+            }
+
+            streamPersons.Close();
+
         }
 
         internal override void SaveScene(string storageId)
