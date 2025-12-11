@@ -51,6 +51,7 @@ namespace GemeloDigital
 
             stream  = new FileStream ("guardado" , FileMode.Open ,FileAccess.Read);
         }
+
         
         
 
