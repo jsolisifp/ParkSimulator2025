@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace GemeloDigital
     {
         internal override void LoadScene(string storageId)
         {
-   
+
             Console.WriteLine("Storage02: Load simulation" + storageId);
 
             if (!File.Exists($"saves/{storageId}"))
@@ -20,41 +21,80 @@ namespace GemeloDigital
                 return;
             }
 
-            FileStream fileLoad = new FileStream("saves/"+storageId, FileMode.Open, FileAccess.Read);  // point - facility-pat-person
+            FileStream fileLoad = new FileStream("saves/" + storageId, FileMode.Open, FileAccess.Read);  // point - facility-pat-person
 
-            bytes= new byte[sizeof(int)];
-            marcaFin = fileLoad.Read(bytes);
 
-            fileLoad.Read(bytes);
+            int countObject = 0; // Tamaño del bloque del objeto
 
-            while (marcaFin!= 0) 
+            bytes = new byte[sizeof(int)];
+            fileLoad.Read(bytes); // se acaba el fichero
+            countObject = BitConverter.ToInt32(bytes); // Bloque 1 : points
+
+            for (int i = 0; i < countObject; i++)
             {
-                // Point tiene posicion X posicion Y y posicion Z, lee 3 floats // Guardar las cosas en la lista de puntos
+                //guid + nombre+ longitud nombre + nombre + x + y+ z
 
-                // Crear punto 
-                SimulatorCore.CreatePoint();
-                // add.Lista(punto) // simulatedObjects.add(point)
 
                
-
-                // Facility
-
-                
-
             }
 
+            fileLoad.Read(bytes);
+            countObject = BitConverter.ToInt32(bytes); // Bloque 2 : facility
 
-     
+            for (int i = 0; i < countObject; i++)
+            {
+            }
 
-            //foreach(var escena in listaEscena)
-            //{
-            //    Console.WriteLine("Escribe el nombre del fichero"); 
-            //    Console.WriteLine($"Escena {escena}");
+            fileLoad.Read(bytes);
+            countObject = BitConverter.ToInt32(bytes); // Bloque 3 : path
 
-            //    string fichero = Console.ReadLine();
-            //}
+            for (int i = 0; i < countObject; i++)
+            {
+               // SimulatorCore.CreatePath(point1, point2);
+            }
 
-            //FileStream fileLoad = new FileStream(fichero, FileMode.Open, FileAccess.Read);
+            fileLoad.Read(bytes);
+            countObject = BitConverter.ToInt32(bytes); // Bloque 4 : person
+            
+            for (int i = 0; i < countObject; i++)
+            {
+                SimulatorCore.CreatePerson();
+            }
+
+            fileLoad.Close();
+            // Point tiene posicion X posicion Y y posicion Z, lee 3 floats // Guardar las cosas en la lista de puntos
+
+
+
+            // Crear punto 
+
+
+
+
+            // add.Lista(punto) // simulatedObjects.add(point)
+       
+ 
+
+
+
+            // Facility
+
+
+
         }
+
+
+
+
+        //foreach(var escena in listaEscena)
+        //{
+        //    Console.WriteLine("Escribe el nombre del fichero"); 
+        //    Console.WriteLine($"Escena {escena}");
+
+        //    string fichero = Console.ReadLine();
+        //}
+
+        //FileStream fileLoad = new FileStream(fichero, FileMode.Open, FileAccess.Read);
     }
+}
 }
