@@ -87,19 +87,39 @@ namespace GemeloDigital
             writer.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
             writer.WriteLine("Fecha: " + thisDay);
             writer.WriteLine("\n *** INFO ***");
-            writer.WriteLine("\n Personas: ");
 
-            
-            
-            writer.WriteLine("Instalción " +  IsAtFacility);
-            writer.WriteLine("Camino: " + IsAtPth);
-            writer.WriteLine("Edad: " + Age);
-            writer.WriteLine("Altura: " + Height);
-            writer.WriteLine("Peso: " + Weight);
-            writer.WriteLine("Dinero: " + Money);
+            writer.WriteLine("\n  ** Instalaciones ** ");
+
+            for (int i = 0; i < facilitiesList.Count; i++)
+            {
+                writer.WriteLine("Instalción " + facilitiesList[i].Name);
+
+            }
+
+            writer.WriteLine("\n  ** Caminos ** ");
+
+            for (int i = 0; i < pathList.Count; i++)
+            {
+                writer.WriteLine("Camino: " + pathList[i]);
+            }
+
+            writer.WriteLine("\n ** Personas ** ");
+
+            for (int i = 0; i < personList.Count; i++)
+            {
+                writer.WriteLine("Edad: " + personList[i].Age);
+                writer.WriteLine("Altura: " + personList[i].Height);
+                writer.WriteLine("Peso: " + personList[i].Weight);
+                writer.WriteLine("Dinero: " + personList[i].Money);
+            }
+
             writer.WriteLine("\n Path: ");
-            writer.WriteLine(" Punto 1: " + Point1);
-            writer.WriteLine(" Punto 2: " + Point2);
+
+            for (int i = 0; i < pathList.Count; i++)
+            {
+                writer.WriteLine(" Punto 1: " + pathList[i].Point1);
+                writer.WriteLine(" Punto 2: " + pathList[i].Point2);
+            }
             writer.WriteLine("\n *** FIN *** ");
             
         }
