@@ -12,7 +12,7 @@ namespace GemeloDigital
         internal override void LoadScene(string storageId)
         {
 
-            Console.WriteLine("Storage02: Load simulation" + storageId);
+            Console.WriteLine("Storage02: Load simulation" + storageId + ".sb");
 
             if (!File.Exists($"saves/{storageId}"))
             {
@@ -21,7 +21,7 @@ namespace GemeloDigital
                 return;
             }
 
-            FileStream fileLoad = new FileStream("saves/" + storageId, FileMode.Open, FileAccess.Read);  // point - facility-pat-person
+            FileStream fileLoad = new FileStream("saves/" + storageId +".sb", FileMode.Open, FileAccess.Read);  // point - facility-pat-person
 
 
             int countObject = 0; // Tamaño del bloque del objeto
@@ -32,10 +32,36 @@ namespace GemeloDigital
 
             for (int i = 0; i < countObject; i++)
             {
-                //guid + nombre+ longitud nombre + nombre + x + y+ z
+                //guid + longitud nombre + nombre + x + y+ z
+                // fichaTemporal
 
+                Point pointTemporal = SimulatorCore.CreatePoint();
+                var posTemporal = pointTemporal.Position;
 
-               
+                bytes = new byte[16];
+                pointTemporal.Id = fileLoad.Read(bytes).ToString(); // funsiona siuhhh
+                
+                bytes = new byte[sizeof(int)];
+                fileLoad.Read(bytes);
+                int tamañoName =BitConverter.ToInt32(bytes); // tamaño
+
+                bytes = new byte[tamañoName];
+                fileLoad.Read(bytes); // name
+                pointTemporal.Name = System.Text.Encoding.UTF8.GetString(bytes);
+
+                bytes = new byte[sizeof(float)];
+                fileLoad.Read(bytes);
+                posTemporal.X = BitConverter.ToSingle(bytes);
+
+                bytes = new byte[sizeof(float)];
+                fileLoad.Read(bytes);
+                posTemporal.Y = BitConverter.ToSingle(bytes);
+
+                bytes = new byte[sizeof(float)];
+                fileLoad.Read(bytes);
+                posTemporal.Z = BitConverter.ToSingle(bytes);
+
+           
             }
 
             fileLoad.Read(bytes);
@@ -43,6 +69,7 @@ namespace GemeloDigital
 
             for (int i = 0; i < countObject; i++)
             {
+                bytes = new byte[16];
             }
 
             fileLoad.Read(bytes);
@@ -50,7 +77,8 @@ namespace GemeloDigital
 
             for (int i = 0; i < countObject; i++)
             {
-               // SimulatorCore.CreatePath(point1, point2);
+                byte[] bytes2 = new byte[16];
+               Path pathTemporal = SimulatorCore.CreatePathWithId(id, point1, point2);
             }
 
             fileLoad.Read(bytes);
