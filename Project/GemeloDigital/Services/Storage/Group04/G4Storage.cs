@@ -38,16 +38,17 @@ namespace GemeloDigital
 
             nombreEscena = storageId;
 
-            FileStream fileOLD = new FileStream(nombreEscena, FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(fileOLD, Encoding.UTF8);
+            FileStream fileNEW = new FileStream(nombreEscena, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(fileNEW, Encoding.UTF8);
+
             DateTime thisDay = DateTime.Now; // <-- Sacamos la fecha.
 
             // List<SimulatedObject> nombreLista = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Objeto);
+             
             List<SimulatedObject> listPointsObj   =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point); 
             List<SimulatedObject> listFacilityObj =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Facility); 
             List<SimulatedObject> listPathObj     =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Path); 
             List<SimulatedObject> listPersonObj   =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Person); 
-
 
             // Creamos las listas 
             List<Point> pointList = new List<Point>();
@@ -82,31 +83,40 @@ namespace GemeloDigital
                 personList.Add(person);
             }
 
-
             writer.WriteLine("******** NOMBRE DE ESCENA ******** ");
             writer.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
             writer.WriteLine("Fecha: " + thisDay);
+
             writer.WriteLine("\n *** INFO ***");
 
             writer.WriteLine("\n  ** Instalaciones ** ");
 
             for (int i = 0; i < facilitiesList.Count; i++)
             {
+                writer.WriteLine("ID " + facilitiesList[i].Id);
                 writer.WriteLine("Instalción " + facilitiesList[i].Name);
-
+                writer.WriteLine("Entrada " + facilitiesList[i].Entrances);
+                writer.WriteLine("Salidas " + facilitiesList[i].Exits);
             }
 
             writer.WriteLine("\n  ** Caminos ** ");
 
             for (int i = 0; i < pathList.Count; i++)
             {
-                writer.WriteLine("Camino: " + pathList[i]);
+                
+                writer.WriteLine("ID: " + pathList[i].Id);
+                writer.WriteLine("Camino: " + pathList[i].Name);
+                writer.WriteLine("Camino: " + pathList[i].Point1.Id);
+                writer.WriteLine("Camino: " + pathList[i].Point2.Id);
             }
 
             writer.WriteLine("\n ** Personas ** ");
 
             for (int i = 0; i < personList.Count; i++)
             {
+
+                writer.WriteLine("ID: " + personList[i].Id);
+                writer.WriteLine("Nombre: " + personList[i].Name);
                 writer.WriteLine("Edad: " + personList[i].Age);
                 writer.WriteLine("Altura: " + personList[i].Height);
                 writer.WriteLine("Peso: " + personList[i].Weight);
@@ -117,12 +127,14 @@ namespace GemeloDigital
 
             for (int i = 0; i < pathList.Count; i++)
             {
-                writer.WriteLine(" Punto 1: " + pathList[i].Point1);
-                writer.WriteLine(" Punto 2: " + pathList[i].Point2);
+                writer.WriteLine(" Punto: " + pathList[i].Point1.Id + "VALORES: " + pathList[i].Point1 + " , " + pathList[i].Point2);
             }
             writer.WriteLine("\n *** FIN *** ");
-            
+
+            writer.Close();
+            fileNEW.Close();
         }
+        
 
         internal override void DeleteScene(string storageId)
         {
