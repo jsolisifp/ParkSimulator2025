@@ -12,7 +12,7 @@ namespace GemeloDigital
         {
             if (!File.Exists("saves/" + storageId))
             {
-                Console.WriteLine($"La escena {storageId} no existe");
+                Console.WriteLine("No existe la escena: " + storageId);
                 Console.ReadLine();
                 return;
             }
@@ -26,12 +26,10 @@ namespace GemeloDigital
             {
                 Point p = SimulatorCore.AsPoint(point);
                 //p.Name
-                //    p.Position.x
+                //p.Position.x
                 //SimulatorCore.FindObjectsOfType
                 //SimulatorCore.GetObjects()simulatedObjects.Add(p); //<-- No hay permisos
             }
-
-
 
 
             ficha.Close();
