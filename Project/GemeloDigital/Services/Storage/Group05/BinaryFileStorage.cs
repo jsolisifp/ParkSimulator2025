@@ -17,9 +17,36 @@ namespace GemeloDigital
 
             list = new List<string>();
 
-            list.Add("TestScene1");
-            list.Add("TestScene2");
-            list.Add("TestScene3");
+            string scenesFile = "scenes.dat";
+
+            if (!File.Exists(scenesFile))
+            {
+                // Creamos archivo vacío, desde el cual luego iremos modificando y añadiendo las nuevas scenes
+                FileStream streamCreate = new FileStream(scenesFile, FileMode.Create, FileAccess.Write);
+                
+                streamCreate.Close();
+            }
+
+            // Si existe, lo cargamos
+            FileStream streamLoad = new FileStream(scenesFile, FileMode.Open, FileAccess.Read);
+
+            byte[] bytesInt = new byte[sizeof(int)];
+
+            int infoLeft = streamLoad.Read(bytesInt); 
+
+            while (infoLeft > 0)
+            {
+                int idSize = BitConverter.ToInt32(bytesInt);
+                byte[] bytesStr = new byte[idSize];
+                streamLoad.Read(bytesStr);
+
+                string sceneName = Encoding.UTF8.GetString(bytesStr);
+                list.Add(sceneName);
+                                
+                infoLeft = streamLoad.Read(bytesInt);
+            }
+
+            streamLoad.Close();
         }
 
         internal override void Finish()
@@ -53,7 +80,7 @@ namespace GemeloDigital
                 int idSize = BitConverter.ToInt32(bytesInt);
                 bytesStr = new byte[idSize];
                 streamPoints.Read(bytesStr);
-                string pointID = System.Text.Encoding.UTF8.GetString(bytesStr);
+                string pointId = System.Text.Encoding.UTF8.GetString(bytesStr);
 
                 streamPoints.Read(bytesInt);
                 int nameSize = BitConverter.ToInt32(bytesInt);
@@ -72,6 +99,9 @@ namespace GemeloDigital
 
                 // crear punto!!!
 
+                Point p = SimulatorCore.CreatePointWithId(pointId);
+                p.Name = pointName;
+                p.Position = new System.Numerics.Vector3((float)x, (float)y, (float)z);                
 
                 infoLeft = streamPoints.Read(bytesInt);
             }
@@ -113,6 +143,7 @@ namespace GemeloDigital
                 int numberOfEntrances = BitConverter.ToInt32(bytesInt);
                 List<string> entrances = new List<string>();
 
+                string entranceId = "";
                 for (int i = 0; i < numberOfEntrances; i++)
                 {
                     streamFacilities.Read(bytesInt);
@@ -121,14 +152,15 @@ namespace GemeloDigital
                     bytesStr = new byte[entranceIdSize];
                     streamFacilities.Read(bytesStr);
 
-                    string entranceId = Encoding.UTF8.GetString(bytesStr);
+                    entranceId = Encoding.UTF8.GetString(bytesStr);
                     entrances.Add(entranceId);
                 }
 
                 streamFacilities.Read(bytesInt);
                 int numberOfExits = BitConverter.ToInt32(bytesInt);
                 List<string> exits = new List<string>();
-                    
+
+                string exitId ="";
                 for (int i = 0; i < numberOfExits; i++)
                 {
                     streamFacilities.Read(bytesInt);
@@ -137,13 +169,41 @@ namespace GemeloDigital
                     bytesStr = new byte[exitIdSize];
                     streamFacilities.Read(bytesStr);
 
-                    string exitId = Encoding.UTF8.GetString(bytesStr);
+                    exitId = Encoding.UTF8.GetString(bytesStr);
                     exits.Add(exitId);
                 }
 
                 // crear facility!!!
+                // necesitamos el punto (que previamente hemos cargado) que encaje con la Id
+                // primero generamos una lista de puntos con las funciones de simulatorCore, sacando primero la lista de objects
+                List<SimulatedObject> objectsPoint = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
+                List<Point> points = new List<Point>();
+                Point point;
 
+                foreach (SimulatedObject o in objectsPoint)
+                {
+                    point = SimulatorCore.AsPoint(o);
+                    points.Add(point);
+                }
 
+                Point entrancePoint = new Point();
+                Point exitPoint = new Point();
+                foreach (Point p in points)
+                {
+                    if (p.Id == entranceId)
+                    {
+                        entrancePoint = p;
+                    }
+                    if (p.Id == exitId)
+                    {
+                        exitPoint = p;
+                    }
+                }
+
+                Facility f = SimulatorCore.CreateFacilityWithId(facilityID, entrancePoint, exitPoint);
+                f.Name = facilityName;
+                f.PowerConsumed = powerConsumed;
+               
                 infoLeft = streamFacilities.Read(bytesInt);
             }
 
@@ -194,8 +254,34 @@ namespace GemeloDigital
                 string pathPoint2Id = System.Text.Encoding.UTF8.GetString(bytesStr);
 
 
-                // crear punto!!!
+                // crear path!!!
+                List<SimulatedObject> objectsPoint = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
+                List<Point> points = new List<Point>();
+                Point point;
 
+                foreach (SimulatedObject o in objectsPoint)
+                {
+                    point = SimulatorCore.AsPoint(o);
+                    points.Add(point);
+                }
+
+                Point point1 = new Point();
+                Point point2 = new Point();
+                foreach (Point po in points)
+                {
+                    if (po.Id == pathPoint1Id)
+                    {
+                        point1 = po;
+                    }
+                    if (po.Id == pathPoint2Id)
+                    {
+                        point2 = po;
+                    }
+                }
+
+                Path p = SimulatorCore.CreatePathWithId(pathID, point1, point2);
+                p.Name = pathName;
+                p.CapacityPersons = capacityPersons;
 
                 infoLeft = streamPaths.Read(bytesInt);
             }
@@ -248,24 +334,81 @@ namespace GemeloDigital
                 int facilityNameSize = BitConverter.ToInt32(bytesInt);
                 bytesStr = new byte[facilityNameSize];
                 streamPersons.Read(bytesStr);
-                string facilityName = System.Text.Encoding.UTF8.GetString(bytesStr);
-                if (facilityName == "null")
+                string? facilityId = System.Text.Encoding.UTF8.GetString(bytesStr);
+                if (facilityId == "null")
                 {
-                    facilityName = null;
+                    facilityId = null;
                 }
 
                 streamPersons.Read(bytesInt);
                 int pathNameSize = BitConverter.ToInt32(bytesInt);
                 bytesStr = new byte[pathNameSize];
                 streamPersons.Read(bytesStr);
-                string pathName = System.Text.Encoding.UTF8.GetString(bytesStr);
-                if (pathName == "null")
+                string? pathId = System.Text.Encoding.UTF8.GetString(bytesStr);
+                if (pathId == "null")
                 {
-                    pathName = null;
+                    pathId = null;
                 }
 
-                // crear punto!!!
+                // crear person!!!
+                List<SimulatedObject> objectsFacility = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Facility);
+                List<Facility> facilities = new List<Facility>();
+                Facility facility;
 
+                foreach (SimulatedObject o in objectsFacility)
+                {
+                    facility = SimulatorCore.AsFacility(o);
+                    facilities.Add(facility);
+                }
+
+                // Contemplamos que pueda ser nulo y lo inicializamos así
+                Facility isAtFacility = null;
+
+                // En caso de que no lo sea, lo reasignamos
+                if (facilityId != null)
+                {
+                    foreach (Facility f in facilities)
+                    {
+                        if (f.Id == facilityId)
+                        {
+                            isAtFacility = f;
+                        }
+                    }
+                }
+
+                List<SimulatedObject> objectsPaths = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Path);
+                List<Path> paths = new List<Path>();
+                Path path;
+
+                foreach (SimulatedObject o in objectsPaths)
+                {
+                    path = SimulatorCore.AsPath(o);
+                    paths.Add(path);
+                }
+
+                // Contemplamos que pueda ser nulo y lo inicializamos así
+                Path isAtPath= null;
+
+                // En caso de que no lo sea, lo reasignamos
+                if (pathId != null)
+                {
+                    foreach (Path pa in paths)
+                    {
+                        if (pa.Id == pathId)
+                        {
+                            isAtPath = pa;
+                        }
+                    }
+                }
+
+                Person p = SimulatorCore.CreatePersonWithId(personID);
+                p.Name = personName;
+                p.Age = personAge;
+                p.Height = personHeight;
+                p.Weight = personWeight;
+                p.Money = personMoney;
+                p.IsAtFacility = isAtFacility;
+                p.IsAtPath = isAtPath;
 
                 infoLeft = streamPersons.Read(bytesInt);
             }
@@ -523,6 +666,23 @@ namespace GemeloDigital
             }
 
             streamPersons.Close();
+
+            // Creamos también un archivo que guarde las escenas. Este se crea al inicializar y aquí le vamos añadiendo los nombres de las escenas
+            // Formato: igual que lo anteriores-> tamaño en bytes del string y string en UTF8
+
+            string scenesFile = "scenes.dat";
+
+            // Primero actualizamos la lista en memoria
+            list.Add(storageId);
+
+            // Ahora añadimos el nuevo ID al final del archivo
+            FileStream streamScenes = new FileStream(scenesFile, FileMode.Append, FileAccess.Write);
+
+            byte[] bytesStrScene = Encoding.UTF8.GetBytes(storageId);
+            streamScenes.Write(BitConverter.GetBytes(bytesStrScene.Length));
+            streamScenes.Write(bytesStrScene);
+
+            streamScenes.Close();
         }
 
 
@@ -530,8 +690,35 @@ namespace GemeloDigital
 
         internal override void DeleteScene(string storageId)
         {
-            //Console.WriteLine("Deleting simulation " + storageId);
+            // Primero la quitamos de la lista en memoria
             list.Remove(storageId);
+
+            // Ahora reescribimos el archivo entero basándonos el la lista que tiene todos los archivos de guardado menos el que hemos quitado
+            string scenesFile = "scenes.dat";
+
+            FileStream stream = new FileStream(scenesFile, FileMode.Create, FileAccess.Write);
+
+            foreach (string id in list)
+            {
+                byte[] bytesStr = Encoding.UTF8.GetBytes(id);
+
+                // Primero el tamaño
+                stream.Write(BitConverter.GetBytes(bytesStr.Length));
+
+                // Luego el string en UTF8
+                stream.Write(bytesStr);
+            }
+
+            stream.Close();
+
+            //// Por último, también eliminas los archivos asociados a esa escena
+            //string name = storageId.GetHashCode().ToString();
+
+            File.Delete(storageId);
+            File.Delete(storageId + "points.dat");
+            File.Delete(storageId + "persons.dat");
+            File.Delete(storageId + "facilities.dat");
+            File.Delete(storageId + "paths.dat");
         }
 
         internal override List<string> ListScenes()
