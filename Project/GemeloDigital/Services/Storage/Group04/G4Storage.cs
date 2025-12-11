@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,13 +43,46 @@ namespace GemeloDigital
             DateTime thisDay = DateTime.Now; // <-- Sacamos la fecha.
 
             // List<SimulatedObject> nombreLista = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Objeto);
-            List<SimulatedObject> listPoints   =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point); 
-            List<SimulatedObject> listFacility =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Facility); 
-            List<SimulatedObject> listPath     =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Path); 
-            List<SimulatedObject> listPerson   =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Person); 
-            
+            List<SimulatedObject> listPointsObj   =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point); 
+            List<SimulatedObject> listFacilityObj =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Facility); 
+            List<SimulatedObject> listPathObj     =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Path); 
+            List<SimulatedObject> listPersonObj   =  SimulatorCore.FindObjectsOfType(SimulatedObjectType.Person); 
 
-           
+
+            // Creamos las listas 
+            List<Point> pointList = new List<Point>();
+            Point p;
+            foreach (SimulatedObject obj in listPointsObj)
+            {
+                p = SimulatorCore.AsPoint(obj);
+                pointList.Add(p);
+            }
+
+            List<Facility> facilitiesList = new List<Facility>();
+            Facility f;
+            foreach (SimulatedObject obj in listFacilityObj)
+            {
+                f = SimulatorCore.AsFacility(obj);
+                facilitiesList.Add(f);
+            }
+
+            List<Path> pathList = new List<Path>();
+            Path pt;
+            foreach (SimulatedObject obj in listPathObj)
+            { 
+                pt = SimulatorCore.AsPath(obj);
+                pathList.Add(pt);
+            }
+
+            List<Person> personList = new List<Person>();
+            Person person;
+            foreach (SimulatedObject obj in listPersonObj)
+            { 
+                person = SimulatorCore.AsPerson(obj);
+                personList.Add(person);
+            }
+
+
             writer.WriteLine("******** NOMBRE DE ESCENA ******** ");
             writer.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
             writer.WriteLine("Fecha: " + thisDay);
@@ -55,7 +90,7 @@ namespace GemeloDigital
             writer.WriteLine("\n Personas: ");
 
             
-            /*
+            
             writer.WriteLine("Instalción " +  IsAtFacility);
             writer.WriteLine("Camino: " + IsAtPth);
             writer.WriteLine("Edad: " + Age);
@@ -66,7 +101,7 @@ namespace GemeloDigital
             writer.WriteLine(" Punto 1: " + Point1);
             writer.WriteLine(" Punto 2: " + Point2);
             writer.WriteLine("\n *** FIN *** ");
-            */
+            
         }
 
         internal override void DeleteScene(string storageId)
