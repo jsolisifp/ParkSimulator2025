@@ -48,7 +48,7 @@ namespace GemeloDigital
 
             state = SimulatorState.Stopped;
 
-            storage = new DummyStorage();
+            storage = new piggieStorage();
 
             storage.Initialize();
         }
@@ -347,6 +347,8 @@ namespace GemeloDigital
         public static void NewScene()
         {
             simulatedObjects.Clear();
+
+            // debemos aqui crear tambien una nueva escena y recordar el guardado en nuevo archivo / fichero
         }
 
         /// <summary>

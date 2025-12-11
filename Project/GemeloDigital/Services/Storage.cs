@@ -10,6 +10,7 @@ namespace GemeloDigital
     {
         internal abstract void Initialize();
         internal abstract void Finish();
+        internal abstract void newScene();
         internal abstract void SaveScene(string storageId);
         internal abstract void LoadScene(string storageId);
         internal abstract void DeleteScene(string storageId);

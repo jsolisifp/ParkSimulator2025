@@ -26,6 +26,8 @@ namespace GemeloDigital
             //Console.WriteLine("DummyStorage: Finish");
         }
         
+
+
         internal override void LoadScene(string storageId)
         {
             //Console.WriteLine("DummyStorage: Load simulation" + storageId);
@@ -45,7 +47,12 @@ namespace GemeloDigital
 
         internal override List<string> ListScenes()
         {
-            return list;list = new List<string>();
+            return list;
+        }
+
+        internal override void newScene()
+        {
+              
         }
 
 
