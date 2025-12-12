@@ -92,7 +92,7 @@ namespace GemeloDigital
                     bytes = BitConverter.GetBytes(p.CapacityPersons);
                     ficha.Write(bytes);
                     //distance
-                    bytes = new byte[sizeof(int)];
+                    bytes = new byte[sizeof(float)];
                     bytes = BitConverter.GetBytes(p.Distance);
                     ficha.Write(bytes);
                     //decir
