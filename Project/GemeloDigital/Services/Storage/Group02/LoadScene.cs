@@ -21,7 +21,7 @@ namespace GemeloDigital
                 return;
             }
 
-            FileStream fileLoad = new FileStream("saves/" + storageId +".sb", FileMode.Open, FileAccess.Read);  // point - facility-pat-person
+            FileStream fileLoad = new FileStream("saves/" + storageId + ".sb", FileMode.Open, FileAccess.Read);  // point - facility-pat-person
 
 
             int countObject = 0; // Tamaño del bloque del objeto
@@ -35,17 +35,17 @@ namespace GemeloDigital
                 //guid + longitud nombre + nombre + x + y+ z
                 // fichaTemporal
 
-                Point pointTemporal = SimulatorCore.CreatePoint();
+                Point pointTemporal = SimulatorCore.CreatePoint(); // en el momento que hago esta variable, es el enlace a meter las cosas en el simulatorCore.
                 var posTemporal = pointTemporal.Position;
 
                 bytes = new byte[16];
                 pointTemporal.Id = fileLoad.Read(bytes).ToString(); // funsiona siuhhh
-                
+
                 bytes = new byte[sizeof(int)];
                 fileLoad.Read(bytes);
-                int tamañoName =BitConverter.ToInt32(bytes); // tamaño
+                int sizeName = BitConverter.ToInt32(bytes); // tamaño
 
-                bytes = new byte[tamañoName];
+                bytes = new byte[sizeName]; // sizeName
                 fileLoad.Read(bytes); // name
                 pointTemporal.Name = System.Text.Encoding.UTF8.GetString(bytes);
 
@@ -61,29 +61,79 @@ namespace GemeloDigital
                 fileLoad.Read(bytes);
                 posTemporal.Z = BitConverter.ToSingle(bytes);
 
-           
+
             }
 
             fileLoad.Read(bytes);
-            countObject = BitConverter.ToInt32(bytes); // Bloque 2 : facility
+            countObject = BitConverter.ToInt32(bytes); // Bloque 2 : path gui1,guid2, id camino, longitud, nombre, capacity,distancia
 
             for (int i = 0; i < countObject; i++)
             {
+                string pointID1;
+                string pointID2;
+                int longitudName;
+
+                // leer point1 y leer point2
                 bytes = new byte[16];
+                fileLoad.Read(bytes);
+                pointID1 = System.Text.Encoding.UTF8.GetString(bytes);
+                fileLoad.Read(bytes);
+                pointID2 = System.Text.Encoding.UTF8.GetString(bytes);
+
+                SimulatedObject p1 = SimulatorCore.FindObjectById(pointID1.ToString());
+                SimulatedObject p2 = SimulatorCore.FindObjectById(pointID2.ToString());
+
+                Point point1 = SimulatorCore.AsPoint(p1);
+                Point point2 = SimulatorCore.AsPoint(p2);
+
+                Path pathTemporal = SimulatorCore.CreatePath(point1,point2);
+
+                fileLoad.Read(bytes);
+                pathTemporal.Id = System.Text.Encoding.UTF8.GetString(bytes);
+
+
+                bytes = new byte[sizeof(int)];
+                fileLoad.Read(bytes);
+                longitudName = BitConverter.ToInt32(bytes);
+               
+                bytes = BitConverter.GetBytes(longitudName);
+                fileLoad.Read(bytes);
+                pathTemporal.Name = System.BitConverter.ToString(bytes);
+
+                bytes = new byte[sizeof(int)];
+                fileLoad.Read(bytes);
+                pathTemporal.CapacityPersons = BitConverter.ToInt32(bytes);
+
+
             }
 
             fileLoad.Read(bytes);
-            countObject = BitConverter.ToInt32(bytes); // Bloque 3 : path
+            countObject = BitConverter.ToInt32(bytes); // Bloque 3 : facility
 
             for (int i = 0; i < countObject; i++)
             {
-                byte[] bytes2 = new byte[16];
-               Path pathTemporal = SimulatorCore.CreatePathWithId(id, point1, point2);
+                string pointID1;
+                string pointID2;
+
+                // leer point1 y leer point2
+                bytes = new byte[16];
+                fileLoad.Read(bytes);
+                pointID1 = System.Text.Encoding.UTF8.GetString(bytes);
+                fileLoad.Read(bytes);
+                pointID2 = System.Text.Encoding.UTF8.GetString(bytes);
+
+                SimulatedObject p1 = SimulatorCore.FindObjectById(pointID1.ToString());
+                SimulatedObject p2 = SimulatorCore.FindObjectById(pointID2.ToString());
+
+                Point point1 = SimulatorCore.AsPoint(p1);
+                Point point2 = SimulatorCore.AsPoint(p2);
+
+                Facility facilityTemporal = SimulatorCore.CreateFacility(point1,point2);
             }
 
             fileLoad.Read(bytes);
             countObject = BitConverter.ToInt32(bytes); // Bloque 4 : person
-            
+
             for (int i = 0; i < countObject; i++)
             {
                 SimulatorCore.CreatePerson();
@@ -100,8 +150,8 @@ namespace GemeloDigital
 
 
             // add.Lista(punto) // simulatedObjects.add(point)
-       
- 
+
+
 
 
 
