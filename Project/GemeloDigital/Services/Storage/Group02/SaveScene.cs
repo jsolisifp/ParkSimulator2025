@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -84,7 +85,7 @@ namespace GemeloDigital
                     bytes = new byte[sizeof(int)];
                     bytes = BitConverter.GetBytes(p.Name.Length);
                     ficha.Write(bytes);
-                    //nombre
+                    //nombre0
                     bytes = System.Text.Encoding.UTF8.GetBytes(p.Name);
                     ficha.Write(bytes);
                     //capacity
@@ -95,10 +96,54 @@ namespace GemeloDigital
                     //decir
                     Console.WriteLine($@"path id = {p.Id}, guid1 = {p.Point1.Id}
                                          , guid2 = {p.Point2.Id}, capacity = {p.CapacityPersons}");
-
-
                 }
 
+            //facilities
+                //sacar facilities
+                List<SimulatedObject> facs = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Path);
+                //cantidad de facs
+                bytes = new byte[sizeof(int)];
+                bytes = BitConverter.GetBytes(facs.Count);
+                ficha.Write(bytes);
+                //facs
+                foreach (SimulatedObject fac in facs)
+                {
+                    Facility f = SimulatorCore.AsFacility(fac);
+                    //cantidad entradas
+                    int cantidad = f.Entrances.Count;
+                    bytes = BitConverter.GetBytes(cantidad);
+                    ficha.Write(bytes);
+                    //entradas
+                    foreach(Point p in f.Entrances)
+                    { 
+                        bytes = Guid.Parse(p.Id).ToByteArray();
+                        ficha.Write(bytes);
+                    }
+                    //cantidad salidas
+                    cantidad = f.Exits.Count;
+                    bytes = BitConverter.GetBytes(cantidad);
+                    ficha.Write(bytes);
+                    //salidas
+                    foreach(Point p in f.Exits)
+                    { 
+                        bytes = Guid.Parse(p.Id).ToByteArray();
+                        ficha.Write(bytes);
+                    }
+                    //id
+                    bytes = Guid.Parse(f.Id).ToByteArray();
+                    ficha.Write(bytes);
+                    //grandaria nombre
+                    bytes = new byte[sizeof(int)];
+                    bytes = BitConverter.GetBytes(f.Name.Length);
+                    ficha.Write(bytes);
+                    //nombre
+                    bytes = System.Text.Encoding.UTF8.GetBytes(f.Name);
+                    ficha.Write(bytes);
+                    //powerconsumed
+                    bytes = BitConverter.GetBytes(f.PowerConsumed);
+                    ficha.Write(bytes);
+                                        
+                }
 
 
             //guardar ficha
