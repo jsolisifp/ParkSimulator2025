@@ -104,16 +104,19 @@ namespace GemeloDigital
                 fileLoad.Read(bytes);
                 pathTemporal.CapacityPersons = BitConverter.ToInt32(bytes);
 
+                // distancia
+
 
             }
 
             fileLoad.Read(bytes);
-            countObject = BitConverter.ToInt32(bytes); // Bloque 3 : facility
+            countObject = BitConverter.ToInt32(bytes); // Bloque 3 : facility // Punto1, Punto 2, CreateFacility, id;longitud, Name, PowerConsumed
 
             for (int i = 0; i < countObject; i++)
             {
                 string pointID1;
                 string pointID2;
+                int longitudName;
 
                 // leer point1 y leer point2
                 bytes = new byte[16];
@@ -129,6 +132,24 @@ namespace GemeloDigital
                 Point point2 = SimulatorCore.AsPoint(p2);
 
                 Facility facilityTemporal = SimulatorCore.CreateFacility(point1,point2);
+
+                fileLoad.Read(bytes);
+                facilityTemporal.Id = System.Text.Encoding.UTF8.GetString(bytes);
+
+                bytes = new byte[sizeof(int)];
+                fileLoad.Read(bytes);
+                longitudName = BitConverter.ToInt32(bytes);
+
+                bytes = BitConverter.GetBytes(longitudName);
+                fileLoad.Read(bytes);
+                facilityTemporal.Name = System.BitConverter.ToString(bytes);
+
+                bytes = new byte[sizeof(float)];
+                fileLoad.Read(bytes);
+                facilityTemporal.PowerConsumed = BitConverter.ToSingle(bytes); // si que hay que cargar, get y set,  si solo pone get solo es lecutra
+
+         
+
             }
 
             fileLoad.Read(bytes);

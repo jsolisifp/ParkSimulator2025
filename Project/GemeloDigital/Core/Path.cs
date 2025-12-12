@@ -9,6 +9,7 @@ namespace GemeloDigital
 {
     public class Path : SimulatedObject
     {
+
         /// <summary>
         /// Primer punto conectado por el camino
         /// </summary>
