@@ -91,10 +91,7 @@ namespace GemeloDigital
                     bytes = new byte[sizeof(int)];
                     bytes = BitConverter.GetBytes(p.CapacityPersons);
                     ficha.Write(bytes);
-                    //distance
-                    bytes = new byte[sizeof(float)];
-                    bytes = BitConverter.GetBytes(p.Distance);
-                    ficha.Write(bytes);
+
                     //decir
                     Console.WriteLine($@"path id = {p.Id}, guid1 = {p.Point1.Id}
                                          , guid2 = {p.Point2.Id}, capacity = {p.CapacityPersons}");
