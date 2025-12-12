@@ -5,6 +5,8 @@ using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
+
 
 
 namespace GemeloDigital
@@ -83,38 +85,28 @@ namespace GemeloDigital
                 personList.Add(person);
             }
 
-            writer.WriteLine("******** NOMBRE DE ESCENA ******** ");
+            writer.WriteLine("******** " +  nombreEscena + " ******** ");
             writer.WriteLine("Nombre Equipo: " + Environment.MachineName); // <-- Sacamos el nombre del equipo.
             writer.WriteLine("Fecha: " + thisDay);
 
             writer.WriteLine("\n *** INFO ***");
 
-            writer.WriteLine("\n  ** Instalaciones ** ");
+            writer.WriteLine("\n--- Instalaciones ---");
 
             for (int i = 0; i < facilitiesList.Count; i++)
             {
-                writer.WriteLine("ID " + facilitiesList[i].Id);
-                writer.WriteLine("Instalción " + facilitiesList[i].Name);
-                writer.WriteLine("Entrada " + facilitiesList[i].Entrances);
-                writer.WriteLine("Salidas " + facilitiesList[i].Exits);
+                writer.WriteLine("ID: " + facilitiesList[i].Id);
+                writer.WriteLine("Instalción: " + facilitiesList[i].Name);
+                // con string.Join une las entradas y salidas y les añade una ',' para separarlo.
+                writer.WriteLine("Entrada: " + string.Join(" , ",facilitiesList[i].Entrances));
+                writer.WriteLine("Salida: " + string.Join(" , ", facilitiesList[i].Exits));
+                writer.WriteLine("Consumen: " + facilitiesList[i].PowerConsumed);
             }
 
-            writer.WriteLine("\n  ** Caminos ** ");
-
-            for (int i = 0; i < pathList.Count; i++)
-            {
-                
-                writer.WriteLine("ID: " + pathList[i].Id);
-                writer.WriteLine("Camino: " + pathList[i].Name);
-                writer.WriteLine("Camino: " + pathList[i].Point1.Id);
-                writer.WriteLine("Camino: " + pathList[i].Point2.Id);
-            }
-
-            writer.WriteLine("\n ** Personas ** ");
+            writer.WriteLine("\n --- Personas ---");
 
             for (int i = 0; i < personList.Count; i++)
             {
-
                 writer.WriteLine("ID: " + personList[i].Id);
                 writer.WriteLine("Nombre: " + personList[i].Name);
                 writer.WriteLine("Edad: " + personList[i].Age);
@@ -123,12 +115,30 @@ namespace GemeloDigital
                 writer.WriteLine("Dinero: " + personList[i].Money);
             }
 
-            writer.WriteLine("\n Path: ");
+            writer.WriteLine("\n --- Puntos ---");
+
+            for (int i = 0; i < pointList.Count; i++)
+            {
+                writer.WriteLine("ID: " + pointList[i].Id);
+                writer.WriteLine("Nombre: " + pointList[i].Name);
+                writer.WriteLine("Coordenadas: " + string.Join(" , ", pointList[i]));
+            }
+
+            writer.WriteLine("\n--- Caminos ---");
 
             for (int i = 0; i < pathList.Count; i++)
             {
-                writer.WriteLine(" Punto: " + pathList[i].Point1.Id + "VALORES: " + pathList[i].Point1 + " , " + pathList[i].Point2);
+                writer.WriteLine("ID: " + pathList[i].Id);
+                writer.WriteLine("Camino: " + pathList[i].Name);
+                writer.WriteLine("Id Punto1: " + pathList[i].Point1.Id);
+                writer.WriteLine("Punto1: " + pathList[i].Point1);
+                writer.WriteLine("Id Punto2: " + pathList[i].Point1.Id);
+                writer.WriteLine("Punto2: " + pathList[i].Point2);
+
             }
+
+
+
             writer.WriteLine("\n *** FIN *** ");
 
             writer.Close();
