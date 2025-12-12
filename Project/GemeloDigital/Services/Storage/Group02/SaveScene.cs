@@ -51,13 +51,14 @@ namespace GemeloDigital
                     ficha.Write(bytes);
                     //z
                     bytes = BitConverter.GetBytes(p.Position.Z);
+                    ficha.Write(bytes);
                     
                     Console.WriteLine($@"punto id = {p.Id},
                                       name = {p.Name}, x = {p.Position.X},
                                       y = {p.Position.Y}, z= {p.Position.Z}");
                  
                 }
-
+            Console.WriteLine("\n");
 
             //paths
                 //sacar paths
@@ -69,12 +70,16 @@ namespace GemeloDigital
                 //paths
                 foreach (SimulatedObject path in paths)
                 {
-                    Point p = SimulatorCore.AsPoint(path);
-
-                    //id
-                    bytes = Guid.Parse(p.Id).ToByteArray(); //convertir guid a bytes
+                    Path p = SimulatorCore.AsPath(path);
+                    //guid1
+                    bytes = Guid.Parse(p.Point1.Id).ToByteArray(); 
                     ficha.Write(bytes);
-
+                    //guid2
+                    bytes = Guid.Parse(p.Point2.Id).ToByteArray(); 
+                    ficha.Write(bytes);
+                    //id
+                    bytes = Guid.Parse(p.Id).ToByteArray(); 
+                    ficha.Write(bytes);
                     //grandaria nombre
                     bytes = new byte[sizeof(int)];
                     bytes = BitConverter.GetBytes(p.Name.Length);
@@ -82,9 +87,19 @@ namespace GemeloDigital
                     //nombre
                     bytes = System.Text.Encoding.UTF8.GetBytes(p.Name);
                     ficha.Write(bytes);
+                    //capacity
+                    bytes = new byte[sizeof(int)];
+                    bytes = BitConverter.GetBytes(p.CapacityPersons);
+                    ficha.Write(bytes);
+                    //distance
+                    bytes = new byte[sizeof(int)];
+                    bytes = BitConverter.GetBytes(p.Distance);
+                    ficha.Write(bytes);
+                    //decir
+                    Console.WriteLine($@"path id = {p.Id}, guid1 = {p.Point1.Id}
+                                         , guid2 = {p.Point2.Id}, capacity = {p.CapacityPersons}");
 
-                    
-                
+
                 }
 
 

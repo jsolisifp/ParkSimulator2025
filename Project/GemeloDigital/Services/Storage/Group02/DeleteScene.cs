@@ -12,6 +12,7 @@ namespace GemeloDigital
         {
 
             Console.WriteLine("Deleting simulation " + storageId);
+
             lista_storages.Remove(storageId);
         }
     }
