@@ -22,6 +22,9 @@ namespace GemeloDigital
         internal override void Initialize()
         {
            Console.WriteLine("G4Storage: Initializing");
+            list = new List<string>(); 
+
+
         }
 
         internal override void Finish()
@@ -32,6 +35,8 @@ namespace GemeloDigital
         internal override void LoadScene(string storageId)
         {
             Console.WriteLine("G4Storge: Load simulation" + storageId);
+
+            
         }
 
         internal override void SaveScene(string storageId)
@@ -40,8 +45,8 @@ namespace GemeloDigital
 
             nombreEscena = storageId;
 
-            FileStream fileNEW = new FileStream(nombreEscena, FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(fileNEW, Encoding.UTF8);
+            FileStream file = new FileStream(nombreEscena, FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(file, Encoding.UTF8);
 
             DateTime thisDay = DateTime.Now; // <-- Sacamos la fecha.
 
@@ -142,7 +147,7 @@ namespace GemeloDigital
             writer.WriteLine("\n *** FIN *** ");
 
             writer.Close();
-            fileNEW.Close();
+            file.Close();
         }
         
 

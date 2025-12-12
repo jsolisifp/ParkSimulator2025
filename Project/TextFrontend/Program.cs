@@ -132,6 +132,7 @@ namespace GemeloDigital
                         if(scene != null)
                         {
                             SimulatorCore.LoadScene(scene);
+
                             selectedObject = null;
                         }
                     }
