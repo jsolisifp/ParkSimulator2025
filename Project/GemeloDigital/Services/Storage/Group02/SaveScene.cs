@@ -53,11 +53,6 @@ namespace GemeloDigital
                     //z
                     bytes = BitConverter.GetBytes(p.Position.Z);
                     ficha.Write(bytes);
-                    
-                    Console.WriteLine($@"punto id = {p.Id},
-                                      name = {p.Name}, x = {p.Position.X},
-                                      y = {p.Position.Y}, z= {p.Position.Z}");
-                 
                 }
             Console.WriteLine("\n");
 
@@ -92,15 +87,11 @@ namespace GemeloDigital
                     bytes = new byte[sizeof(int)];
                     bytes = BitConverter.GetBytes(p.CapacityPersons);
                     ficha.Write(bytes);
-
-                    //decir
-                    Console.WriteLine($@"path id = {p.Id}, guid1 = {p.Point1.Id}
-                                         , guid2 = {p.Point2.Id}, capacity = {p.CapacityPersons}");
                 }
 
             //facilities
                 //sacar facilities
-                List<SimulatedObject> facs = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Path);
+                List<SimulatedObject> facs = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Facility);
                 //cantidad de facs
                 bytes = new byte[sizeof(int)];
                 bytes = BitConverter.GetBytes(facs.Count);
@@ -145,7 +136,53 @@ namespace GemeloDigital
                                         
                 }
 
-
+            //personas
+                //sacar facilities
+                List<SimulatedObject> pers = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Person);
+                //cantidad de facs
+                bytes = new byte[sizeof(int)];
+                bytes = BitConverter.GetBytes(pers.Count);
+                ficha.Write(bytes);
+                //facs
+                foreach (SimulatedObject per in pers)
+                {
+                    Person p = SimulatorCore.AsPerson(per);
+                    //id
+                    bytes = Guid.Parse(p.Id).ToByteArray();
+                    ficha.Write(bytes);
+                    //grandaria nombre
+                    bytes = new byte[sizeof(int)];
+                    bytes = BitConverter.GetBytes(p.Name.Length);
+                    ficha.Write(bytes);
+                    //nombre
+                    bytes = System.Text.Encoding.UTF8.GetBytes(p.Name);
+                    ficha.Write(bytes);
+                    //age
+                    bytes = BitConverter.GetBytes(p.Age);
+                    ficha.Write(bytes);
+                    //height
+                    bytes = BitConverter.GetBytes(p.Height);
+                    ficha.Write(bytes);
+                    //weight
+                    bytes = BitConverter.GetBytes(p.Weight);
+                    ficha.Write(bytes);
+                    //money
+                    bytes = BitConverter.GetBytes(p.Money);
+                    ficha.Write(bytes);
+                    //id facility
+                    if(p.IsAtFacility!=null)//en personas esto puede ser NULL
+                    { 
+                          bytes = Guid.Parse(p.IsAtFacility.Id).ToByteArray();
+                          ficha.Write(bytes);
+                    }else ficha.Write(new byte[16]);//escribir espacio de guid vacio
+                    //id path
+                    if(p.IsAtPath!=null) //aqui igual
+                    {
+                          bytes = Guid.Parse(p.IsAtPath.Id).ToByteArray();
+                          ficha.Write(bytes);
+                    }else ficha.Write(new byte[16]);
+                }
+                
             //guardar ficha
             ficha.Close();
             lista_storages.Add(storageId);//meter ficha a la lista
