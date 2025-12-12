@@ -54,25 +54,22 @@ namespace GemeloDigital
             //Console.WriteLine("BinaryFileStorage: Finish");
         }
 
-        internal override void LoadScene(string storageId)
-        {
-            //Console.WriteLine("BinaryFileStorage: Load simulation" + storageId);
-
-            // Cargar puntos
+        // Función que carga el archivo que contiene los datos de 'points' y lo vuelca a memoria en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre en UTF8 (int)
+        // Nombre en UTF8
+        // coordenadas en float (orden X,Y,Z)
+        internal void LoadPointsFile(string storageId)
+        {            
             byte[] bytesInt = new byte[sizeof(int)];
             byte[] bytesFloat = new byte[sizeof(float)];
             byte[] bytesStr;
 
             // variable que nos permite cargar el archivo exacto asociado al nombre de la escena
             string scenePointsName = storageId + "points.dat";
-            FileStream streamPoints = new FileStream(scenePointsName, FileMode.Open, FileAccess.Read);
-
-            // Sabemos que la lista de puntos está guardada en un orden completo, así que sacamos los datos
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // coordenadas en float (orden X,Y,Z)
+            FileStream streamPoints = new FileStream(scenePointsName, FileMode.Open, FileAccess.Read);                       
+            
             int infoLeft = streamPoints.Read(bytesInt);
 
             while (infoLeft > 0)
@@ -90,38 +87,45 @@ namespace GemeloDigital
 
                 streamPoints.Read(bytesFloat);
                 float x = BitConverter.ToSingle(bytesFloat);
-                
+
                 streamPoints.Read(bytesFloat);
                 float y = BitConverter.ToSingle(bytesFloat);
-                
+
                 streamPoints.Read(bytesFloat);
                 float z = BitConverter.ToSingle(bytesFloat);
-
-                // crear punto!!!
-
+               
+                // Una vez tenemos los datos, creamos el punto con estos
                 Point p = SimulatorCore.CreatePointWithId(pointId);
                 p.Name = pointName;
-                p.Position = new System.Numerics.Vector3((float)x, (float)y, (float)z);                
+                p.Position = new System.Numerics.Vector3((float)x, (float)y, (float)z);
 
                 infoLeft = streamPoints.Read(bytesInt);
             }
 
             streamPoints.Close();
+        }
 
-            // Cargar facilities
+        // Función que carga el archivo que contiene los datos de 'Facilities' y lo vuelca a memoria en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre en UTF8 (int)
+        // Nombre en UTF8
+        // Float power consumed total
+        // Cantidad de puntos en la lista de entrada (int)--> Entrances.Count
+        // cada una de esas entradas --> int tamaño del id, string id
+        // Cantidad de puntos en la lista de salida (int)--> Exits.Count
+        // cada una de esas entradas --> int tamaño del id, string id
+        // IMPORTANTE: esta función carga la última entrada y salida de las listas, ya que el programa por el momento solo tiene una entrada y una salida
+        internal void LoadFacilitiesFile(string storageId)
+        {
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
+                        
             string sceneFacilitiesName = storageId + "facilities.dat";
             FileStream streamFacilities = new FileStream(sceneFacilitiesName, FileMode.Open, FileAccess.Read);
-
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // Float power consumed total
-            // Cantidad de puntos en la lista de entrada (int)--> Entrances.Count
-            // cada una de esas entradas --> int ID
-            // Cantidad de puntos en la lista de salida (int)--> Exits.Count
-            // cada una de esas entradas --> int ID
-            infoLeft = streamFacilities.Read(bytesInt);
+            
+            int infoLeft = streamFacilities.Read(bytesInt);
 
             while (infoLeft > 0)
             {
@@ -160,7 +164,7 @@ namespace GemeloDigital
                 int numberOfExits = BitConverter.ToInt32(bytesInt);
                 List<string> exits = new List<string>();
 
-                string exitId ="";
+                string exitId = "";
                 for (int i = 0; i < numberOfExits; i++)
                 {
                     streamFacilities.Read(bytesInt);
@@ -203,27 +207,34 @@ namespace GemeloDigital
                 Facility f = SimulatorCore.CreateFacilityWithId(facilityID, entrancePoint, exitPoint);
                 f.Name = facilityName;
                 f.PowerConsumed = powerConsumed;
-               
+
                 infoLeft = streamFacilities.Read(bytesInt);
             }
 
             streamFacilities.Close();
+        }
 
+        // Función que carga el archivo que contiene los datos de 'paths' y lo vuelca a memoria en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre (int)
+        // Nombre en UTF8
+        // capacity persons (int)
+        // espacio en bytes del Id del punto1 (int)
+        // id del punto1
+        // espacio en bytes del Id del punto2 (int)
+        // id del punto2
+        internal void LoadPathsFile(string storageId)
+        {
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
 
-            // Cargar paths
+            
             string scenePathsName = storageId + "paths.dat";
             FileStream streamPaths = new FileStream(scenePathsName, FileMode.Open, FileAccess.Read);
-
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // capacity persons (int)
-            // espacio en bytes del Id del punto1
-            // id del punto1
-            // espacio en bytes del Id del punto2
-            // id del punto2
-            infoLeft = streamPaths.Read(bytesInt);
+                        
+            int infoLeft = streamPaths.Read(bytesInt);
 
             while (infoLeft > 0)
             {
@@ -254,7 +265,7 @@ namespace GemeloDigital
                 string pathPoint2Id = System.Text.Encoding.UTF8.GetString(bytesStr);
 
 
-                // crear path!!!
+                // crear path
                 List<SimulatedObject> objectsPoint = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
                 List<Point> points = new List<Point>();
                 Point point;
@@ -288,22 +299,29 @@ namespace GemeloDigital
 
             streamPaths.Close();
 
+        }
 
-            // Cargar persons
+        // Función que carga el archivo que contiene los datos de 'persons' y lo vuelca a memoria en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre (int)
+        // Nombre en UTF8
+        // age (int)
+        // height (float)
+        // weight (float)
+        // money (float)
+        // is at facility (si es null el archivo previamente guardó "null" en UTF8)
+        // is at path (si es null el archivo previamente guardó "null" en UTF8)
+        internal void LoadPersonsFile(string storageId)
+        {
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
+           
             string scenePersonsName = storageId + "persons.dat";
             FileStream streamPersons = new FileStream(scenePersonsName, FileMode.Open, FileAccess.Read);
-
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // age (int)
-            // height (float)
-            // weight (float)
-            // money (float)
-            // is at facility (? si es null ponemos LA PALABRA "null", si no es null id de la facility)
-            // is at path
-            infoLeft = streamPersons.Read(bytesInt);
+                        
+            int infoLeft = streamPersons.Read(bytesInt);
 
             while (infoLeft > 0)
             {
@@ -350,7 +368,8 @@ namespace GemeloDigital
                     pathId = null;
                 }
 
-                // crear person!!!
+                // crear person
+                // hay que sacar la lista de facilities y paths para encontrar aquel en el que pueda estar ubicada la person
                 List<SimulatedObject> objectsFacility = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Facility);
                 List<Facility> facilities = new List<Facility>();
                 Facility facility;
@@ -387,7 +406,7 @@ namespace GemeloDigital
                 }
 
                 // Contemplamos que pueda ser nulo y lo inicializamos así
-                Path isAtPath= null;
+                Path isAtPath = null;
 
                 // En caso de que no lo sea, lo reasignamos
                 if (pathId != null)
@@ -414,14 +433,16 @@ namespace GemeloDigital
             }
 
             streamPersons.Close();
-
         }
 
-        internal override void SaveScene(string storageId)
-        {
-            //Console.WriteLine("BinaryFileStorage: Save simulation " + storageId);
-
-            // Guardar puntos
+        // Función que guarda el archivo que contiene los datos de 'points' en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre (int)
+        // Nombre en UTF8
+        // coordenadas en float (orden X,Y,Z)
+        internal void SavePointsFile(string storageId)
+        {            
             byte[] bytesInt = new byte[sizeof(int)];
             byte[] bytesFloat = new byte[sizeof(float)];
             byte[] bytesStr;
@@ -435,20 +456,15 @@ namespace GemeloDigital
             List<SimulatedObject> objectsPoint = SimulatorCore.FindObjectsOfType(SimulatedObjectType.Point);
             List<Point> points = new List<Point>();
             Point point;
-            
+
             foreach (SimulatedObject o in objectsPoint)
             {
-               point = SimulatorCore.AsPoint(o);
-               points.Add(point);
+                point = SimulatorCore.AsPoint(o);
+                points.Add(point);
             }
 
-            // Forma de guardar los puntos
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // coordenadas en float (orden X,Y,Z)
-            foreach(Point p in points)
+            
+            foreach (Point p in points)
             {
                 bytesStr = System.Text.Encoding.UTF8.GetBytes(p.Id);
                 streamPoints.Write(BitConverter.GetBytes(bytesStr.Length));
@@ -470,9 +486,27 @@ namespace GemeloDigital
 
             streamPoints.Close();
 
+        }
 
+        // Función que guarda el archivo que contiene los datos de 'facilities' en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre (int)
+        // Nombre en UTF8
+        // Float power consumed total
+        // Cantidad de puntos en la lista de entrada (int)--> Entrances.Count
+        // cada una de esas entradas --> int tamaño del id, string id
+        // Cantidad de puntos en la lista de salida (int)--> Exits.Count
+        // cada una de esas entradas --> int tamaño del id, string id
+        // IMPORTANTE: esta función guarda la lista de entradas y salidas, pero de momento el programa solo permite crear facilities con una entrada y una salida,
+        // por lo que guarda dos lists de un elemento cada una
+        internal void SaveFacilitiesFile(string storageId)
+        {
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
 
-            // Guardar facilities
+            
             string sceneFacilitiesName = storageId + "facilities.dat";
             FileStream streamFacilities = new FileStream(sceneFacilitiesName, FileMode.Create, FileAccess.Write);
 
@@ -488,16 +522,7 @@ namespace GemeloDigital
                 facilities.Add(facility);
             }
 
-            // Forma de guardar las facilities
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // Float power consumed total
-            // Cantidad de puntos en la lista de entrada (int)--> Entrances.Count
-            // cada una de esas entradas --> int ID
-            // Cantidad de puntos en la lista de salida (int)--> Exits.Count
-            // cada una de esas entradas --> int ID
+            
 
             foreach (Facility f in facilities)
             {
@@ -533,6 +558,23 @@ namespace GemeloDigital
 
             streamFacilities.Close();
 
+        }
+
+        // Función que guarda el archivo que contiene los datos de 'facilities' en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre (int)
+        // Nombre en UTF8
+        // capacity persons (int)
+        // espacio en bytes del Id del punto1 (int)
+        // id del punto1 (str)
+        // espacio en bytes del Id del punto2 (int)
+        // id del punto2 (str)
+        internal void SavePathsFile(string storageId)
+        {
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
 
             // Guardar Paths
             string scenePathsName = storageId + "paths.dat";
@@ -549,19 +591,9 @@ namespace GemeloDigital
                 path = SimulatorCore.AsPath(o);
                 paths.Add(path);
             }
-
-            // Forma de guardar los paths
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // capacity persons (int)
-            // espacio en bytes del Id del punto1
-            // id del punto1
-            // espacio en bytes del Id del punto2
-            // id del punto2
-
-            foreach(Path p in paths)
+                      
+            
+            foreach (Path p in paths)
             {
                 bytesStr = System.Text.Encoding.UTF8.GetBytes(p.Id);
                 streamPaths.Write(BitConverter.GetBytes(bytesStr.Length));
@@ -584,9 +616,27 @@ namespace GemeloDigital
             }
 
             streamPaths.Close();
+        }
 
-
-            // Guardar persons
+        // Función que guarda el archivo que contiene los datos de 'facilities' en un orden concreto
+        // Espacio en bytes del Id (int)
+        // Id (str)
+        // Tamaño de bytes del nombre (int)
+        // Nombre en UTF8 (str)
+        // age (int)
+        // height (float)
+        // weight (float)
+        // money (float)
+        // Tamaño en bytes del id de la facility o la palabra "null" (int)
+        // is at facility (? si es null ponemos LA PALABRA "null", si no es null id de la facility)
+        // Tamaño en bytes del id del path o la palabra "null" (int)
+        // is at path
+        internal void SavePersonsFile(string storageId)
+        {
+            byte[] bytesInt = new byte[sizeof(int)];
+            byte[] bytesFloat = new byte[sizeof(float)];
+            byte[] bytesStr;
+                        
             string scenePersonsName = storageId + "persons.dat";
             FileStream streamPersons = new FileStream(scenePersonsName, FileMode.Create, FileAccess.Write);
 
@@ -600,19 +650,8 @@ namespace GemeloDigital
             {
                 person = SimulatorCore.AsPerson(o);
                 persons.Add(person);
-            }
-
-            // Forma de guardar las persons
-            // Espacio en bytes del Id
-            // Id (str)
-            // Tamaño de bytes del nombre en UTF8
-            // Nombre en UTF8
-            // age (int)
-            // height (float)
-            // weight (float)
-            // money (float)
-            // is at facility (? si es null ponemos LA PALABRA "null", si no es null id de la facility)
-            // is at path
+            }                       
+            
 
             foreach (Person p in persons)
             {
@@ -636,7 +675,7 @@ namespace GemeloDigital
                 bytesFloat = BitConverter.GetBytes(p.Money);
                 streamPersons.Write(bytesFloat);
 
-                if(p.IsAtFacility == null)
+                if (p.IsAtFacility == null)
                 {
                     string empty = "null";
                     bytesStr = System.Text.Encoding.UTF8.GetBytes(empty);
@@ -666,10 +705,13 @@ namespace GemeloDigital
             }
 
             streamPersons.Close();
+        }
 
-            // Creamos también un archivo que guarde las escenas. Este se crea al inicializar y aquí le vamos añadiendo los nombres de las escenas
-            // Formato: igual que lo anteriores-> tamaño en bytes del string y string en UTF8
-
+        // Función que añade el nombre de la escena al final del archivo "scenes.dat"
+        // Este archivo se crea vacío la primera vez que se inicializa el sistema de guardado
+        // Formato: igual que lo anteriores-> tamaño en bytes del string (int) y string en UTF8
+        internal void SaveSceneIdFile(string storageId)
+        {            
             string scenesFile = "scenes.dat";
 
             // Primero actualizamos la lista en memoria
@@ -685,7 +727,38 @@ namespace GemeloDigital
             streamScenes.Close();
         }
 
+        // Cargamos la serie de archivos que componen una escena, es importante el orden, ya que algunas estructuras dependen de otras.
+        internal override void LoadScene(string storageId)
+        {
+            //Console.WriteLine("BinaryFileStorage: Load simulation" + storageId);
+            
+            LoadPointsFile(storageId);
 
+            LoadFacilitiesFile(storageId);
+            
+            LoadPathsFile(storageId);
+
+            LoadPersonsFile(storageId);
+
+        }
+
+        // Guardamos la serie de archivos que componen una escena
+        // El nombre de cada archivo siempre se compone de "nombreEscena" + "points.dat", cambiando points por facilities, paths... (ver cada una de las funciones)
+        internal override void SaveScene(string storageId)
+        {
+            //Console.WriteLine("BinaryFileStorage: Save simulation " + storageId);
+
+            SavePointsFile(storageId);
+
+            SaveFacilitiesFile(storageId);
+
+            SavePathsFile(storageId);
+
+            SavePersonsFile(storageId);
+
+            SaveSceneIdFile(storageId);
+
+        }
 
 
         internal override void DeleteScene(string storageId)
@@ -711,9 +784,8 @@ namespace GemeloDigital
 
             stream.Close();
 
-            //// Por último, también eliminas los archivos asociados a esa escena
-            //string name = storageId.GetHashCode().ToString();
-
+            // eliminamos los archivos asociados a la escena eliminada siguiendo el mismo patrón de nombre
+            
             File.Delete(storageId);
             File.Delete(storageId + "points.dat");
             File.Delete(storageId + "persons.dat");
